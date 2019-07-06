@@ -5,15 +5,10 @@ using UnityEngine;
 public class AnimControl : MonoBehaviour
 {
 
-    // Start is called before the first frame update
+    public Animator anim;
+    public string playName;
     void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        anim.SetBool("Claw Attack", true);
     }
 }
