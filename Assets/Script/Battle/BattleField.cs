@@ -21,6 +21,11 @@ public class BattleField {
     private float lastPrepareTime = 0;
     private bool isEnterPrepare = true;
 
+    /// <summary>
+    /// 所有玩家
+    /// </summary>
+    public Player[] Players = new Player[0];
+
     public void Setup(BattleGameConfig config) {
         this.gameConfig = config;
     }
