@@ -57,4 +57,12 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
             obj.transform.SetParent(purchaseViewPlaceHolder[i].transform, false);
         }
     }
+
+    /// <summary>
+    /// 购买英雄
+    /// </summary>
+    /// <param name="tag">Tag.</param>
+    public void BuyCharacter(string tag) {
+
+    }
 }
