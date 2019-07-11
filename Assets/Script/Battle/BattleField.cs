@@ -154,6 +154,7 @@ public class BattleField {
             Debug.Log("重新进入准备");
             emitEvent(BattleEvent.RoundComplete);
             // 重新进入准备
+            this.gameConfig.currentRound++;
             this.changeState(BattleState.Prepare);
             this.gameConfig.currentPrepareTime = this.gameConfig.prepareTime;
             emitEvent(BattleEvent.PrepareEnter);

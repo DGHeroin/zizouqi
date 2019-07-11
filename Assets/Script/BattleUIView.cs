@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class BattleUIView : MonoBehaviour {
     public Text stateText; // 回合数
-    public Text fightingText; // 战斗状态
+    public Text countDownText; // 倒计时
+    public Text moneyText; // 金币数
     public BattleFiledGame battleFieldGame;
 
-    const string templateStringPrepare = "<color=\"#00ff00\">倒计时:{0}</color>";
-    const string templateStringFighing = "<color=\"#ff0000\">回合:{0}</color>";
+    const string templateStringPrepare = "<color=\"#31f33e\">准备回合 {0}</color>";
+    const string templateStringFighing = "<color=\"#ff0000\">战斗回合 {0}</color>";
 
     private void Start() {
         InvokeRepeating("UpdateUI", 0.5f, 0.2f); // invoke after 0.5s, and repeat every 0.2s
@@ -21,17 +22,24 @@ public class BattleUIView : MonoBehaviour {
         var gameState = battleFieldGame.Game().GameState();
         if (gameState == BattleState.Prepare) { // 准备中
             // 显示倒计时
-            stateText.text = string.Format(templateStringPrepare, battleFieldGame.gameConfig.currentPrepareTime);
+            stateText.text = string.Format(templateStringPrepare, battleFieldGame.gameConfig.currentRound);
+            if (!countDownText.gameObject.activeInHierarchy) {
+                countDownText.gameObject.SetActive(true);
+            }
+            countDownText.text = "" + battleFieldGame.gameConfig.currentPrepareTime;
         } else {
             // 隐藏倒计时
             stateText.text = string.Format(templateStringFighing, battleFieldGame.gameConfig.currentRound);
+            countDownText.gameObject.SetActive(false);
         }
 
         if (gameState == BattleState.Fighting) { // 战斗中 等待战斗结束
-            fightingText.gameObject.SetActive(true);
+            countDownText.gameObject.SetActive(false);
         } else {
-            fightingText.gameObject.SetActive(false);
+            countDownText.gameObject.SetActive(true);
         }
+
+        moneyText.text = "" + battleFieldGame.gameConfig.Me.Money;
     }
 
     void PrepareEnter() {
