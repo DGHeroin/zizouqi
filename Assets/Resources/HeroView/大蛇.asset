@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\u5927\u86C7"
   m_EditorClassIdentifier: 
   Tag: Cobra
-  Prefab: {fileID: 100000, guid: 49bd1c57a0f78a84d88f0c7becea596c, type: 3}
+  Prefab: {fileID: 100004, guid: 55496e728d7be644e82bfd86db6be50d, type: 3}
   Idle: Idle
   Walk: Walk
   TakeDamage: TakeDamage

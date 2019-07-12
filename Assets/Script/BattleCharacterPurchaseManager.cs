@@ -26,6 +26,7 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
     public GameObject[] priceTags;
 
     public BattleFiledGame battleFieldGame;
+
     /// <summary>
     /// 锁定这次购买
     /// </summary>
@@ -87,7 +88,7 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
             while (purchaseViewPlaceHolder[i].transform.childCount > 0) {
                 DestroyImmediate(purchaseViewPlaceHolder[i].transform.GetChild(0).gameObject);
             }
-            var obj = GameObject.Instantiate(list[i]);
+            var obj = Instantiate(list[i]);
             CurrentHeroList[i] = obj;
             obj.transform.position = Vector3.zero;
             obj.transform.SetParent(purchaseViewPlaceHolder[i].transform, false);
@@ -99,6 +100,8 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
             priceTagView.PriceText.text = "" + comp.Price;
             priceTagView.heroView = comp;
             priceTagView.purchaseListIndex = i;
+            priceTagView.battleFieldGame = battleFieldGame;
+            priceTagView.heroTag = comp.HeroTag;
         }
     }
 
@@ -108,8 +111,15 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
             Debug.Log("金币不够");
             return false;
         }
+
+        if (battleFieldGame.onHandChessManager.Count() == battleFieldGame.gameConfig.gamePlayMaxOnHandPlayer) {
+            // 手牌已满
+            Debug.Log("手牌满了");
+            return false;
+        }
         battleFieldGame.gameConfig.Me.Money -= hero.Price; // 扣币
         priceTags[idx].SetActive(false); // 隐藏价格标签
+        CurrentHeroList[idx].SetActive(false);
         return true;
     }
 }

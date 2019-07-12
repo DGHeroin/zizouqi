@@ -9,8 +9,24 @@ public static class ExtensionMethods {
     }
 
     public static void ClearAllChild(this Transform trans) {
-        foreach(Transform tr in trans) {
-            GameObject.Destroy(tr.gameObject);
+        foreach (Transform tr in trans) {
+            Object.Destroy(tr.gameObject);
+        }
+    }
+
+    public static void ClearAllChild(this GameObject[] objs) {
+        foreach (var obj in objs) {
+            if (obj != null) {
+                obj.transform.ClearAllChild();
+            }
+        }
+    }
+
+    public static void ClearAllChild(this Transform[] trans) {
+        foreach (var tr in trans) {
+            if (tr != null) {
+                tr.ClearAllChild();
+            }
         }
     }
 }

@@ -5,6 +5,11 @@ using UnityEngine;
 public class BattleFiledGame : MonoBehaviour {
     BattleField battleField;
     public BattleGameConfig gameConfig;
+    /// <summary>
+    /// 手牌管理器
+    /// </summary>
+    public OnHandChessManager onHandChessManager;
+
     private void Awake() {
         // 创建游戏
         battleField = new BattleField();
@@ -29,7 +34,7 @@ public class BattleFiledGame : MonoBehaviour {
     /// <returns></returns>
     private Player[] CreatePlayers() {
         Player[] players = new Player[4];
-        for(int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
             players[0] = DummyPlayer();
         }
         return players;

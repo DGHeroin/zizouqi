@@ -12,4 +12,7 @@ public class BattleGameConfig : ScriptableObject {
     public int currentRound = 1;
     public Player[] Players; // 玩家
     public Player Me;// 自己的视角
+
+    public int gamePlayMaxOnHandPlayer = 8; // 最大手牌数量
 }
+
