@@ -17,15 +17,15 @@ public class HeroActor : MonoBehaviour {
     }
 
     private bool CreateView(string heroTag) {
-        // 加载配置
+        // 加载配置it
         var obj = Resources.Load<CharacterAnimationConfig>("HeroView/" + heroTag);
         if (obj == null) {
             Debug.Log("模型丢失:" + heroTag);
             return false;
         }
+
         // 创建模型
         var view = Instantiate(obj.Prefab);
-        Debug.Log("===>new :" + view);
         view.transform.SetParent(this.transform, false);
         view.transform.localScale = Vector3.one * 0.7f;
 
