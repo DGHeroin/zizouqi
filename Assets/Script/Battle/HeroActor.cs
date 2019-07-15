@@ -16,19 +16,19 @@ public class HeroActor : MonoBehaviour {
         return true;
     }
 
-    private bool CreateView(string heroTag) {
+    public static GameObject CreateView(string heroTag) {
         // 加载配置it
         var obj = Resources.Load<CharacterAnimationConfig>("HeroView/" + heroTag);
         if (obj == null) {
             Debug.Log("模型丢失:" + heroTag);
-            return false;
+            return null;
         }
 
         // 创建模型
         var view = Instantiate(obj.Prefab);
-        view.transform.SetParent(this.transform, false);
+        //view.transform.SetParent(transform, false);
         view.transform.localScale = Vector3.one * 0.7f;
-
-        return true;
+        view.AddComponent<HeroActor>();
+        return view;
     }
 }

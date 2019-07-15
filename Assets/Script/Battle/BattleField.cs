@@ -21,6 +21,11 @@ public class BattleField {
     private float lastPrepareTime = 0;
     private bool isEnterPrepare = true;
 
+    static BattleField Current = null;
+    public BattleField() {
+        Current = this;
+    }
+
     /// <summary>
     /// 所有玩家
     /// </summary>

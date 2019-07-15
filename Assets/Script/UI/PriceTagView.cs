@@ -26,10 +26,12 @@ public class PriceTagView : MonoBehaviour {
                 Destroy(heroView.gameObject);
                 heroView = null;
                 // 创建一个英雄, 并放入手牌中
-                var prefab = Resources.Load<GameObject>("HeroActor/HeroActor");
-                var actor = Instantiate(prefab);
-                battleFieldGame.onHandChessManager.AddChess(actor);
-                actor.GetComponent<HeroActor>().Create(heroTag);
+                var actor = HeroActor.CreateView(heroTag);
+                if (actor != null) {
+                    actor.AddComponent<HeroActorDrag>();
+                    actor.AddComponent<CapsuleCollider>();
+                    battleFieldGame.onHandChessManager.AddChess(actor);
+                }
             } else {
                 // 购买失败
             }

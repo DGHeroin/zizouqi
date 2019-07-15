@@ -4,7 +4,6 @@ using System.Collections;
 public class HeroActorDrag : MonoBehaviour {
 
     public LayerMask layerMask;
-    public Camera cam;
     public Transform oldTrans;
     public float moveTime;
     public float height;
@@ -14,13 +13,22 @@ public class HeroActorDrag : MonoBehaviour {
 
 
     private void OnMouseDown() {
+        Debug.Log("OnMouseDown");
         AwakeMove();
         HightOpen();
     }
 
     private void OnMouseUp() {
+        Debug.Log("OnMouseUp");
         IsArrive(Input.mousePosition);
         HightClose();
+
+        var sel = ChessBlockManager.Current.GetSelected();
+        if (sel != null) {
+            Debug.Log("=========选中了:" + sel.BlockTag);
+        } else {
+            Debug.Log("没有选中释放位置");
+        }
     }
 
     private void OnMouseDrag() {
@@ -29,6 +37,7 @@ public class HeroActorDrag : MonoBehaviour {
 
     public void AwakeMove() {
         StopAllCoroutines();
+        Debug.Log("开始拖拽");
     }
 
     void HightOpen() {
@@ -38,12 +47,11 @@ public class HeroActorDrag : MonoBehaviour {
 
     }
     void StartMove() {
-        ray = cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 100, layerMask.value)) {
-            if (hit.collider.tag == "xx") {
-                Debug.Log("到了");
-            } else {
-                this.transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit)) {
+            if (hit.collider.gameObject == this.gameObject) {
+                //var origin = this.transform.position;
+                //this.transform.position = new Vector3(hit.point.x, origin.y, hit.point.z);
             }
         }
     }
@@ -51,7 +59,7 @@ public class HeroActorDrag : MonoBehaviour {
     /// 判断是否到达目的地
     /// </summary>
     void IsArrive(Vector3 pos) {
-        ray = cam.ScreenPointToRay(pos);
+        ray = Camera.main.ScreenPointToRay(pos);
         if (Physics.Raycast(ray, out hit, 100, layerMask.value)) {
             if (hit.collider.tag != "xxx") {
                 ReturnHomePosition();
