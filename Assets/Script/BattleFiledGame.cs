@@ -42,10 +42,10 @@ public class BattleFiledGame : MonoBehaviour {
 
     Player DummyPlayer() {
         var player = new Player();
-        player.HP = 100;
+        player.HP = gameConfig.InitHP;
         player.NickName = "玩家";
-        player.Money = 10; // 金币数量
-        player.Population = 1; // 人口数
+        player.Money = gameConfig.InitPrice; // 金币数量
+        player.Population = gameConfig.InitPopulation; // 人口数
         return player;
     }
 }

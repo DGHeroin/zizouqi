@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f801be57df24747be9efab3a98aecec4, type: 3}
   m_Name: BattleGameConfig
   m_EditorClassIdentifier: 
-  Players: 
-  round: 1
   roundTime: 60
   prepareTime: 10
-  currentPrepareTime: 5
+  InitPrice: 20
+  gamePlayMaxOnHandPlayer: 8
+  currentPrepareTime: 7
+  currentFightingTime: -84
+  currentRound: 15
