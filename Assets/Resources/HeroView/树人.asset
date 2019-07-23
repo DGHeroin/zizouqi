@@ -16,8 +16,16 @@ MonoBehaviour:
   Prefab: {fileID: 100052, guid: 8ba84bdb1221cf14d8968d8a6adb8a67, type: 3}
   Idle: Idle
   Walk: Walk
-  TakeDamage: TakeDamage
-  NormalAttack: HeadAttack
-  Ability_1: ProjectileAttack
+  TakeDamage: Take Damage
+  NormalAttack: Head Attack
+  Ability_1: Projectile Attack
   Ability_2: 
   Ability_3: 
+  NormalAttackPrefab: {fileID: 100002, guid: b078622531c3a3e42ac09eed9d3dce77, type: 3}
+  NormalAttackIsProject: 1
+  NormatlAttackSpped: 0.2
+  NormatlAttackDelay: 0.5
+  NormatlAttackHitEffect: {fileID: 100000, guid: 2c2da673165ed3447850e87b455196c3,
+    type: 3}
+  NormatlAttackHitEffectDuration: 2
+  NormalHitEffectTakeDamageDelayl: 0.5

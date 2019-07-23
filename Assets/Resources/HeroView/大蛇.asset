@@ -16,8 +16,15 @@ MonoBehaviour:
   Prefab: {fileID: 100004, guid: 55496e728d7be644e82bfd86db6be50d, type: 3}
   Idle: Idle
   Walk: Walk
-  TakeDamage: TakeDamage
-  NormalAttack: HeadAttack
-  Ability_1: ProjectileAttack
+  TakeDamage: Take Damage
+  NormalAttack: Spit Poison Attack
+  Ability_1: Tail Attack
   Ability_2: 
   Ability_3: 
+  NormalAttackPrefab: {fileID: 100002, guid: 32f4cd885b47e9d4a93e21d1cc8dd0f5, type: 3}
+  NormalAttackIsProject: 1
+  NormatlAttackSpped: 0.3
+  NormatlAttackDelay: 0.2
+  NormatlAttackHitEffect: {fileID: 100000, guid: f97acbbec642ba242b35547b68b4aed7,
+    type: 3}
+  NormatlAttackHitEffectDuration: 2

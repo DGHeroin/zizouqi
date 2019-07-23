@@ -16,8 +16,15 @@ MonoBehaviour:
   Prefab: {fileID: 100052, guid: 8ba84bdb1221cf14d8968d8a6adb8a67, type: 3}
   Idle: Idle
   Walk: Walk
-  TakeDamage: TakeDamage
-  NormalAttack: ClawAttack
-  Ability_1: WebAttack
+  TakeDamage: Take Damage
+  NormalAttack: Claw Attack
+  Ability_1: Web Attack
   Ability_2: 
   Ability_3: 
+  NormalAttackPrefab: {fileID: 100000, guid: eccb63b2f055f23409bbd71a04d51ec7, type: 3}
+  NormalAttackIsProject: 1
+  NormatlAttackSpped: 0.05
+  NormatlAttackDelay: 0.3
+  NormatlAttackHitEffect: {fileID: 100000, guid: ad11c15b983e72b47a87860ec9eda013,
+    type: 3}
+  NormatlAttackHitEffectDuration: 2

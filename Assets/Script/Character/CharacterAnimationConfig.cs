@@ -12,4 +12,12 @@ public class CharacterAnimationConfig : ScriptableObject {
     public string Ability_1;    // 1号技能
     public string Ability_2;    // 2号技能
     public string Ability_3;    // 3号技能
+    [Space()]
+    public GameObject NormalAttackPrefab;        // 普通攻击预制体
+    public bool NormalAttackIsProject;           // 普通攻击时候是抛掷体
+    public float NormalAttackYOffset;            // Y高度
+    public float NormatlAttackSpped;             // 普通攻击速度
+    public float NormatlAttackDelay;             // 动画延迟
+    public GameObject NormatlAttackHitEffect;    // 普通攻击 碰撞效果
+    public float NormatlAttackHitEffectDuration; // 动画碰撞效果时间
 }

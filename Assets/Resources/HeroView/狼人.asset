@@ -16,8 +16,14 @@ MonoBehaviour:
   Prefab: {fileID: 100026, guid: e084af645a9c57d41a9c112203d6e8b4, type: 3}
   Idle: Idle
   Walk: Run
-  TakeDamage: TakeDamage
-  NormalAttack: BiteAttack
-  Ability_1: ClawAttack
+  TakeDamage: Take Damage
+  NormalAttack: Bite Attack
+  Ability_1: Claw Attack
   Ability_2: BreathAttackOnce
   Ability_3: BreathAttack
+  NormalAttackPrefab: {fileID: 0}
+  NormalAttackIsProject: 0
+  NormatlAttackSpped: 0
+  NormatlAttackDelay: 0.5
+  NormatlAttackHitEffect: {fileID: 0}
+  NormatlAttackHitEffectDuration: 0

@@ -10,6 +10,7 @@ public class ChessBoardGenerator : MonoBehaviour {
     public GameObject prefab;
     [Tooltip("块信息")]
     public Rect rect = Rect.zero;
+    public Material[] blockMaterials;
 
     /// <summary>
     /// 
@@ -19,7 +20,7 @@ public class ChessBoardGenerator : MonoBehaviour {
         // 生成地图
         int[,] map = ChessMapFuncs.GenerateArray(width, height);
         // 渲染地图
-        ChessMapFuncs.RenderMap(map, prefab, this.transform, rect);
+        ChessMapFuncs.RenderMap(map, prefab, this.transform, rect, blockMaterials);
     }
     public void ClearMap() {
         // 清空节点

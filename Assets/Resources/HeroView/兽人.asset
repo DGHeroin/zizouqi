@@ -16,8 +16,15 @@ MonoBehaviour:
   Prefab: {fileID: 100080, guid: 7ea9ea68707e3564392f5e5d45303b59, type: 3}
   Idle: Idle
   Walk: Walk
-  TakeDamage: TakeDamage
-  NormalAttack: MeleeAttack
-  Ability_1: SwingAttack
+  TakeDamage: Take Damage
+  NormalAttack: Melee Attack
+  Ability_1: Swing Attack
   Ability_2: 
   Ability_3: 
+  NormalAttackPrefab: {fileID: 0}
+  NormalAttackIsProject: 0
+  NormatlAttackSpped: 0
+  NormatlAttackDelay: 0.5
+  NormatlAttackHitEffect: {fileID: 0}
+  NormatlAttackHitEffectDuration: 0
+  NormalHitEffectTakeDamageDelayl: 0

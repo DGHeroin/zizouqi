@@ -18,7 +18,7 @@ public class ChessMapFuncs {
         return map;
     }
 
-    public static void RenderMap(int[,] map, GameObject prefab, Transform parent, Rect rect) {
+    public static void RenderMap(int[,] map, GameObject prefab, Transform parent, Rect rect, Material[] mats) {
         float offsetX = rect.x;
         float offsetY = rect.y;
         float itemX = rect.width;
@@ -27,6 +27,7 @@ public class ChessMapFuncs {
         if (prefab == null) return;
         int count = 0;
         char c = 'A';
+        int idx = 0;
         for (int y = 0; y <= map.GetUpperBound(1); y++) {
             for (int x = 0; x <= map.GetUpperBound(0); x++) {
                 count++;
@@ -38,6 +39,12 @@ public class ChessMapFuncs {
                 obj.SetActive(true);
                 var comp = obj.GetComponent<ChessBlock>();
                 comp.BlockTag = string.Format("{0}{1}", c, x + 1);
+                obj.isStatic = true;
+                // load default materail
+                var materialPath = string.Format("Material/{0}/{1}", c, x + 1);
+                var mat = Resources.Load<Material>(materialPath);
+                comp.GetComponent<MeshRenderer>().material = mats[idx++];
+                obj.name = comp.BlockTag;
             }
             c++;
         }

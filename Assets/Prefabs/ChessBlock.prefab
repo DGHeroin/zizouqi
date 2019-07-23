@@ -18,7 +18,7 @@ GameObject:
   m_TagString: ChessBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &199318439370553792
 Transform:
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: db26eb5bad54641ecb9ef721cdb1714d, type: 2}
+  - {fileID: 2100000, guid: 83e6098d70c35fb47b1b72edc1b4b559, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,6 +106,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BlockTag: 
-  Materials:
-  - {fileID: 2100000, guid: db26eb5bad54641ecb9ef721cdb1714d, type: 2}
-  - {fileID: 2100000, guid: c69e7f7c1e4594a108f5a345238f8f54, type: 2}
+  selectedMaterial: {fileID: 2100000, guid: c69e7f7c1e4594a108f5a345238f8f54, type: 2}
+  IsSelected: 0
