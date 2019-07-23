@@ -18,27 +18,29 @@ public class BattleUIView : MonoBehaviour {
         battleFieldGame.Game().AddEvent(BattleEvent.PrepareLeave, PrepareLeave);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void UpdateUI() {
         var gameState = battleFieldGame.Game().GameState();
         if (gameState == BattleState.Prepare) { // 准备中
             // 显示倒计时
+            Debug.Log("xxx:" + battleFieldGame.gameConfig.currentRound);
             stateText.text = string.Format(templateStringPrepare, battleFieldGame.gameConfig.currentRound);
             if (!countDownText.gameObject.activeInHierarchy) {
                 countDownText.gameObject.SetActive(true);
             }
             countDownText.text = "" + battleFieldGame.gameConfig.currentPrepareTime;
+        } else if (gameState == BattleState.Fighting) { // 战斗中显示战斗超时
+            stateText.text = string.Format(templateStringFighing, battleFieldGame.gameConfig.currentRound);
+            if (!countDownText.gameObject.activeInHierarchy) {
+                countDownText.gameObject.SetActive(true);
+            }
+            countDownText.text = string.Format("<color=\"#ff0000\">{0}</color>", battleFieldGame.gameConfig.currentFightingTime);
         } else {
             // 隐藏倒计时
-            stateText.text = string.Format(templateStringFighing, battleFieldGame.gameConfig.currentRound);
             countDownText.gameObject.SetActive(false);
         }
-
-        if (gameState == BattleState.Fighting) { // 战斗中 等待战斗结束
-            countDownText.gameObject.SetActive(false);
-        } else {
-            countDownText.gameObject.SetActive(true);
-        }
-
         moneyText.text = "" + battleFieldGame.gameConfig.Me.Money;
     }
 

@@ -51,10 +51,32 @@ public class BattleField {
 
     public void StartGame() {
         Debug.Log("游戏开始");
+        
     }
 
     public void UpdateGame() {
         this.CheckState(); // 检查状态
+    }
+
+    public void BattleStart() {
+        Debug.Log("进入战斗");
+        gameConfig.currentFightingTime = gameConfig.roundTime;
+        emitEvent(BattleEvent.PrepareLeave);
+        isEnterPrepare = true;
+        this.changeState(BattleState.Fighting);
+        fightingStartTime = Time.time;
+        emitEvent(BattleEvent.FightingEnter);
+        AudioManager.Instance.PlaySFX(gameConfig.AudioRoundStart);
+    }
+
+    public void RoundPrepare(int leftSeconds) {
+        if (leftSeconds == 3) {
+            AudioManager.Instance.PlaySFX(gameConfig.AudioRoundCountDown);
+        }
+    }
+
+    public void RoundFighting(int leftSeconds) {
+        
     }
 
     public void EndGame() {
@@ -110,12 +132,9 @@ public class BattleField {
             gameConfig.currentPrepareTime--;
             if (gameConfig.currentPrepareTime == 0) {
                 // 进入战斗
-                Debug.Log("进入战斗");
-                emitEvent(BattleEvent.PrepareLeave);
-                isEnterPrepare = true;
-                this.changeState(BattleState.Fighting);
-                fightingStartTime = Time.time;
-                emitEvent(BattleEvent.FightingEnter);
+                BattleStart();
+            } else {
+                RoundPrepare(gameConfig.currentPrepareTime);
             }
         }
     }
@@ -134,24 +153,26 @@ public class BattleField {
         if (Time.time - fightingTime > 1) {
             fightingTime = Time.time;
             gameConfig.currentFightingTime--;
+            RoundFighting(gameConfig.currentFightingTime);
             if (gameConfig.currentFightingTime == 0) { // 战斗超时
-                emitEvent(BattleEvent.FightingLeave);
-            }
-
-            // HACK, 模拟战斗结束
-            if (Time.time - fightingStartTime > 5) {
                 emitEvent(BattleEvent.FightingLeave);
                 onRoundCompleted();
             }
         }
     }
 
-
     #endregion
     /// <summary>
     /// 回合结束
     /// </summary>
     private void onRoundCompleted() {
+        bool IsWin = true;
+        if (IsWin) {
+            AudioManager.Instance.PlaySFX(gameConfig.AudioRoundWin);
+        } else {
+            AudioManager.Instance.PlaySFX(gameConfig.AudioRoundFail);
+        }
+
         // TODO 检查游戏是否结束
         if (battleFinished) {
             emitEvent(BattleEvent.BattleComplete);

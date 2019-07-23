@@ -15,6 +15,12 @@ public class BattleGameConfig : ScriptableObject {
     public int InitHP;
     [Tooltip("最大手牌数量")]
     public int gamePlayMaxOnHandPlayer = 8;
+
+    public AudioClip AudioRoundWin;
+    public AudioClip AudioRoundFail;
+    public AudioClip AudioRoundStart;
+    public AudioClip AudioRoundCountDown;
+
     // runtime value
     [HideInInspector()]
     public int currentPrepareTime = 0;
@@ -26,7 +32,6 @@ public class BattleGameConfig : ScriptableObject {
     public Player[] Players; // 玩家
     [HideInInspector()]
     public Player Me;// 自己的视角
-
     
 }
 
