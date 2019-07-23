@@ -23,8 +23,15 @@ MonoBehaviour:
   Ability_3: 
   NormalAttackPrefab: {fileID: 100000, guid: eccb63b2f055f23409bbd71a04d51ec7, type: 3}
   NormalAttackIsProject: 1
+  NormalAttackYOffset: 0
   NormatlAttackSpped: 0.05
   NormatlAttackDelay: 0.3
   NormatlAttackHitEffect: {fileID: 100000, guid: ad11c15b983e72b47a87860ec9eda013,
     type: 3}
   NormatlAttackHitEffectDuration: 2
+  AudioTakeDamage: {fileID: 8300000, guid: 4c0ca859a8f01f4488eb687c37ed74a0, type: 3}
+  AudioNormalAttack: {fileID: 8300000, guid: 610356ec4a2f4eb419ea22197730d5dc, type: 3}
+  AudioNormalAttackDelay: 0.5
+  AudioNormalAttackHit: {fileID: 8300000, guid: 54a919460dcad404684b0cd4bd837cd7,
+    type: 3}
+  AudioNormalAttackHitDelay: 0.5

@@ -32,6 +32,9 @@ public class CharacterBase : MonoBehaviour {
             return;
         }
         anim.SetBool(config.NormalAttack, true);
+        if (config.AudioNormalAttack != null) {
+            AudioManager.Instance.PlaySFX(config.AudioNormalAttack, config.AudioNormalAttackDelay);
+        }
 
         if (config.NormalAttackIsProject) { // 抛掷体
             var obj = Instantiate(config.NormalAttackPrefab, this.transform);
@@ -63,6 +66,9 @@ public class CharacterBase : MonoBehaviour {
             var att = obj.transform.DOMove(AttackTransform.position, duration).OnComplete(() => {
                 Destroy(obj);
                 onHit.Invoke(target.gameObject);
+                if (config.AudioNormalAttackHit != null) {
+                    AudioManager.Instance.PlaySFX(config.AudioNormalAttackHit, config.AudioNormalAttackHitDelay);
+                }
                 if (config.NormatlAttackHitEffect != null) {  // 有碰撞效果
                     var hitEff = Instantiate(config.NormatlAttackHitEffect, AttackTransform);
                     if (hitEff == null) {
@@ -83,6 +89,9 @@ public class CharacterBase : MonoBehaviour {
             seq.AppendInterval(config.NormatlAttackDelay);
             seq.OnComplete(()=> {
                 onHit.Invoke(target.gameObject);
+                if (config.AudioNormalAttackHit != null) {
+                    AudioManager.Instance.PlaySFX(config.AudioNormalAttackHit, config.AudioNormalAttackHitDelay);
+                }
             });
             // 
             if (config.NormatlAttackHitEffect != null) {  // 有碰撞效果
@@ -96,7 +105,10 @@ public class CharacterBase : MonoBehaviour {
     }
     public void PerformTakeDamage() {
         if (anim == null) { return; }
-
         anim.SetBool(config.TakeDamage, true);
+
+        if (config.AudioTakeDamage != null) {
+            AudioManager.Instance.PlaySFX(config.AudioTakeDamage);
+        }
     }
 }

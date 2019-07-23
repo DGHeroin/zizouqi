@@ -20,4 +20,10 @@ public class CharacterAnimationConfig : ScriptableObject {
     public float NormatlAttackDelay;             // 动画延迟
     public GameObject NormatlAttackHitEffect;    // 普通攻击 碰撞效果
     public float NormatlAttackHitEffectDuration; // 动画碰撞效果时间
+    [Space()]
+    public AudioClip AudioTakeDamage; // 收到伤害
+    public AudioClip AudioNormalAttack;// 执行普通攻击
+    public float AudioNormalAttackDelay;// 攻击音效延迟
+    public AudioClip AudioNormalAttackHit;// 普通攻击击中
+    public float AudioNormalAttackHitDelay;// 普通攻击击中延迟
 }

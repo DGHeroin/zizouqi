@@ -23,7 +23,14 @@ MonoBehaviour:
   Ability_3: BreathAttack
   NormalAttackPrefab: {fileID: 0}
   NormalAttackIsProject: 0
+  NormalAttackYOffset: 0
   NormatlAttackSpped: 0
   NormatlAttackDelay: 0.5
   NormatlAttackHitEffect: {fileID: 0}
   NormatlAttackHitEffectDuration: 0
+  AudioTakeDamage: {fileID: 8300000, guid: 6be5b4294ecccee4990ff8afcd56e09c, type: 3}
+  AudioNormalAttack: {fileID: 0}
+  AudioNormalAttackDelay: 0
+  AudioNormalAttackHit: {fileID: 8300000, guid: d4f417c045b4e9648ba464979d8fccc3,
+    type: 3}
+  AudioNormalAttackHitDelay: 0
