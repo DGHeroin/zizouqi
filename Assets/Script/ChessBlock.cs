@@ -31,7 +31,6 @@ public class ChessBlock : MonoBehaviour {
             // 是否被UI阻挡
             if (EventSystem.current.IsPointerOverGameObject()) {
                 yield return new WaitForSeconds(0.1f);
-                Debug.Log("被UI");
                 continue;
             }
 

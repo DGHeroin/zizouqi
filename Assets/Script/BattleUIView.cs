@@ -25,7 +25,6 @@ public class BattleUIView : MonoBehaviour {
         var gameState = battleFieldGame.Game().GameState();
         if (gameState == BattleState.Prepare) { // 准备中
             // 显示倒计时
-            Debug.Log("xxx:" + battleFieldGame.gameConfig.currentRound);
             stateText.text = string.Format(templateStringPrepare, battleFieldGame.gameConfig.currentRound);
             if (!countDownText.gameObject.activeInHierarchy) {
                 countDownText.gameObject.SetActive(true);

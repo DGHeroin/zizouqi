@@ -10,7 +10,9 @@ public class PriceTagView : MonoBehaviour {
     public string heroTag;// 英雄tag
     public Button PurchaseButton;
     [HideInInspector]
-    public BuyHeroView heroView;
+    public GameObject heroObject;
+    [HideInInspector]
+    public CharacterPurchaseConfig purchaseConfig;
     [HideInInspector]
     public int purchaseListIndex;
     [HideInInspector]
@@ -20,13 +22,13 @@ public class PriceTagView : MonoBehaviour {
         PurchaseButton.onClick.AddListener(OnClick);
     }
     private void OnClick() {
-        if (heroView != null) {
-            if (BattleCharacterPurchaseManager.Instance.Purchase(purchaseListIndex, heroView)) {
+        if (heroObject != null) {
+            if (BattleCharacterPurchaseManager.Instance.Purchase(purchaseListIndex, purchaseConfig)) {
                 // 购买成功
-                Destroy(heroView.gameObject);
-                heroView = null;
+                Destroy(heroObject);
+                heroObject = null;
                 // 创建一个英雄, 并放入手牌中
-                var actor = HeroActor.CreateView(heroTag);
+                var actor = HeroActor.CreateView(purchaseConfig);
                 if (actor != null) {
                     actor.AddComponent<HeroActorDrag>();
                     actor.AddComponent<CapsuleCollider>();

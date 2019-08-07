@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 /// <summary>
 /// 英雄购买管理
@@ -15,7 +16,7 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
     }
 
     [Header("英雄列表")]
-    public GameObject[] CharacterList;
+    public CharacterPurchaseConfig[] CharacterList;
 
     [Header("显示的UI Slots")]
     public GameObject[] purchaseViewPlaceHolder;
@@ -59,12 +60,12 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
     /// <summary>
     /// 创建新的购买列表
     /// </summary>
-    public GameObject[] CreatePurchaseList() {
+    public CharacterPurchaseConfig[] CreatePurchaseList() {
         int n = 5;
-        GameObject[] result = new GameObject[5];
+        CharacterPurchaseConfig[] result = new CharacterPurchaseConfig[5];
         for (int i = 0; i < n; i++) {
-            var obj = RandomList();
-            result[i] = obj;
+            var config = RandomList();
+            result[i] = config;
         }
         return result;
     }
@@ -72,7 +73,7 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
     /// 随机生成一个英雄
     /// </summary>
     /// <returns></returns>
-    private GameObject RandomList() {
+    private CharacterPurchaseConfig RandomList() {
         return CharacterList[UnityEngine.Random.Range(0, CharacterList.Length - 1)];
     }
 
@@ -88,25 +89,33 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
             while (purchaseViewPlaceHolder[i].transform.childCount > 0) {
                 DestroyImmediate(purchaseViewPlaceHolder[i].transform.GetChild(0).gameObject);
             }
-            var obj = Instantiate(list[i]);
+            var config = list[i];
+            var obj = Instantiate<GameObject>(config.prefab);
             CurrentHeroList[i] = obj;
+
             obj.transform.position = Vector3.zero;
             obj.transform.SetParent(purchaseViewPlaceHolder[i].transform, false);
+            
+//            obj.transform.DOLookAt(characterFaceTo.position, 1.0f, AxisConstraint.Z, obj.transform.up);
 
-            var comp = obj.GetComponent<BuyHeroView>();
+            obj.AddComponent<PurchaseView>().faceTo = characterFaceTo;
+
             var priceTagView = priceTags[i].GetComponent<PriceTagView>();
             priceTags[i].SetActive(true);
-            priceTagView.NameText.text = comp.HeroTag;
-            priceTagView.PriceText.text = "" + comp.Price;
-            priceTagView.heroView = comp;
+            priceTagView.NameText.text = config.Tag;
+            priceTagView.PriceText.text = "" + config.Price;
+            priceTagView.heroObject = obj;
+            priceTagView.purchaseConfig = config;
             priceTagView.purchaseListIndex = i;
             priceTagView.battleFieldGame = battleFieldGame;
-            priceTagView.heroTag = comp.HeroTag;
+            priceTagView.heroTag = config.Tag;
         }
     }
 
-    public bool Purchase(int idx, BuyHeroView hero) {
-        if (battleFieldGame.gameConfig.Me.Money < hero.Price) {
+    public Transform characterFaceTo;
+
+    public bool Purchase(int idx, CharacterPurchaseConfig config) {
+        if (battleFieldGame.gameConfig.Me.Money < config.Price) {
             // 金币不够
             Debug.Log("金币不够");
             return false;
@@ -117,9 +126,13 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
             Debug.Log("手牌满了");
             return false;
         }
-        battleFieldGame.gameConfig.Me.Money -= hero.Price; // 扣币
+        battleFieldGame.gameConfig.Me.Money -= config.Price; // 扣币
         priceTags[idx].SetActive(false); // 隐藏价格标签
         CurrentHeroList[idx].SetActive(false);
         return true;
+    }
+    public Transform baseObj;
+    public void TestLookAt(Transform testLookAt) {
+        testLookAt.DOLookAt(Camera.main.transform.position, 2, AxisConstraint.None, baseObj.up);
     }
 }
