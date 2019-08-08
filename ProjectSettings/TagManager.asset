@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - ChessBlock
+  - character
   layers:
   - Default
   - TransparentFX

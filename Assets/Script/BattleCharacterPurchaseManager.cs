@@ -95,8 +95,6 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
 
             obj.transform.position = Vector3.zero;
             obj.transform.SetParent(purchaseViewPlaceHolder[i].transform, false);
-            
-//            obj.transform.DOLookAt(characterFaceTo.position, 1.0f, AxisConstraint.Z, obj.transform.up);
 
             obj.AddComponent<PurchaseView>().faceTo = characterFaceTo;
 
@@ -114,6 +112,12 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
 
     public Transform characterFaceTo;
 
+    /// <summary>
+    /// 执行购买
+    /// </summary>
+    /// <param name="idx"></param>
+    /// <param name="config"></param>
+    /// <returns></returns>
     public bool Purchase(int idx, CharacterPurchaseConfig config) {
         if (battleFieldGame.gameConfig.Me.Money < config.Price) {
             // 金币不够

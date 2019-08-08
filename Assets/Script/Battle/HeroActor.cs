@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class HeroActor : MonoBehaviour {
 
+    public string Id { get; private set; }
+
+    public string ChessBoardPosition = null;
 
     public bool Create(CharacterPurchaseConfig config) {
         //Debug.Log("创建英雄" + heroTag);
@@ -21,11 +24,14 @@ public class HeroActor : MonoBehaviour {
     /// </summary>
     /// <param name="config"></param>
     /// <returns></returns>
-    public static GameObject CreateView(CharacterPurchaseConfig config) {
+    public static HeroActor CreateView(CharacterPurchaseConfig config) {
         // 创建模型
-        var view = Instantiate(config.prefab);
-        view.transform.localScale = Vector3.one * 4f;
-        view.AddComponent<HeroActor>();
-        return view;
+        var obj = Instantiate(config.prefab);
+        obj.transform.localScale = Vector3.one * 4f;
+        var actor = obj.AddComponent<HeroActor>();
+        // id
+        actor.Id = System.Guid.NewGuid().ToString();
+        Debug.Log("=================>" + actor.Id);
+        return actor;
     }
 }

@@ -38,7 +38,7 @@ public class ChessMapFuncs {
                 obj.transform.localPosition = new Vector3(_x, 0.05f, _y);
                 obj.SetActive(true);
                 var comp = obj.GetComponent<ChessBlock>();
-                comp.BlockTag = string.Format("{0}{1}", c, x + 1);
+                comp.BlockTag = string.Format("B{0}{1}", c, x + 1);
                 obj.isStatic = true;
                 // load default materail
                 var materialPath = string.Format("Material/{0}/{1}", c, x + 1);

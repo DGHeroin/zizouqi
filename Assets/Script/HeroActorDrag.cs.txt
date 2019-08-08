@@ -26,6 +26,8 @@ public class HeroActorDrag : MonoBehaviour {
         var sel = ChessBlockManager.Current.GetSelected();
         if (sel != null) {
             Debug.Log("=========选中了:" + sel.BlockTag);
+            this.transform.SetParent(null);
+            this.transform.localPosition = sel.transform.position;
         } else {
             Debug.Log("没有选中释放位置");
         }
@@ -71,6 +73,14 @@ public class HeroActorDrag : MonoBehaviour {
 
     void ReturnHomePosition() {
         Debug.Log("返回原来位置");
-
     }
+
+    private void OnMouseOver() {
+        
+    }
+
+    private void OnMouseExit() {
+        
+    }
+
 }

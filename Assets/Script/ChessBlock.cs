@@ -14,7 +14,7 @@ public class ChessBlock : MonoBehaviour {
     void Start() {
         mr = GetComponent<MeshRenderer>();
         originMaterial = mr.materials[0]; // 记录原来的材质
-        StartCoroutine(checkHit());
+        // StartCoroutine(checkHit());
     }
 
     Ray ray;
@@ -94,6 +94,6 @@ public class ChessBlock : MonoBehaviour {
     }
 
     private void OnMouseUp() {
-        Debug.Log("松手在:" + BlockTag);
+        // Debug.Log("松手在:" + BlockTag);
     }
 }

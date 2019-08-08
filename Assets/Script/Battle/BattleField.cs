@@ -16,14 +16,21 @@ public class BattleField {
 
     private Dictionary<string, UnityEvent> events = new Dictionary<string, UnityEvent>(); // 游戏事件
 
+    private Dictionary<string, HeroActor> CharacterMap = new Dictionary<string, HeroActor>(); // 站位信息
+
     bool battleFinished = false; // 所有游戏结束
 
     private float lastPrepareTime = 0;
     private bool isEnterPrepare = true;
 
-    static BattleField Current = null;
+    static BattleField _Current = null;
+    public static BattleField Current {
+        get {
+            return _Current;
+        }
+    }
     public BattleField() {
-        Current = this;
+        _Current = this;
     }
 
     /// <summary>
@@ -51,7 +58,6 @@ public class BattleField {
 
     public void StartGame() {
         Debug.Log("游戏开始");
-        
     }
 
     public void UpdateGame() {
@@ -185,6 +191,27 @@ public class BattleField {
             this.gameConfig.currentPrepareTime = this.gameConfig.prepareTime;
             emitEvent(BattleEvent.PrepareEnter);
         }
+    }
+
+    public void MoveCharacter(HeroActor actor, string to) {
+        string from = actor.ChessBoardPosition;
+        if (from != null) {
+            this.CharacterMap.Remove(from);
+        }
+        this.CharacterMap[to] = actor;
+        actor.ChessBoardPosition = to;
+        actor.transform.SetParent(null);
+        var chessBlock = ChessBlockManager.Current.GetChessBlock(to);
+        actor.transform.position = chessBlock.transform.position;
+        Debug.Log("角色移动" + actor + " => " + to);
+        
+    }
+
+    public HeroActor GetMap(string pos) {
+        if(!this.CharacterMap.ContainsKey(pos)) {
+            return null;
+        }
+        return this.CharacterMap[pos];
     }
 }
 

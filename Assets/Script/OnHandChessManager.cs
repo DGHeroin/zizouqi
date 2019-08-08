@@ -18,14 +18,17 @@ public class OnHandChessManager : MonoBehaviour {
 
     }
 
-    public void AddChess(GameObject obj) {
+    public string AddChess(HeroActor obj) {
+        string result = null;
         foreach (var slot in Slots) {
             if (slot.transform.childCount == 0) {
                 obj.transform.SetParent(slot.transform, false);
                 var actor = obj.GetComponent<HeroActor>();
+                result = slot.name;
                 break;
             }
         }
+        return result;
     }
 
     public int Count() {
