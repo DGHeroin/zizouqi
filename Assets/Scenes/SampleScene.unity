@@ -618,7 +618,6 @@ GameObject:
   - component: {fileID: 69545465}
   - component: {fileID: 69545464}
   - component: {fileID: 69545466}
-  - component: {fileID: 69545467}
   m_Layer: 0
   m_Name: AA8
   m_TagString: ChessBlock
@@ -699,21 +698,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &69545467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69545462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da9380e842d8f452e9303e88357d106d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BlockTag: 
-  selectedMaterial: {fileID: 0}
-  IsSelected: 0
 --- !u!114 &71826883 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1168082873626793058, guid: cc3ff09613f697c4487a4b667eb1ae66,
@@ -1836,7 +1820,6 @@ GameObject:
   - component: {fileID: 270481520}
   - component: {fileID: 270481519}
   - component: {fileID: 270481521}
-  - component: {fileID: 270481522}
   m_Layer: 0
   m_Name: AA6
   m_TagString: ChessBlock
@@ -1917,21 +1900,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &270481522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270481517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da9380e842d8f452e9303e88357d106d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BlockTag: 
-  selectedMaterial: {fileID: 0}
-  IsSelected: 0
 --- !u!1 &271130057
 GameObject:
   m_ObjectHideFlags: 0
@@ -7526,7 +7494,6 @@ GameObject:
   - component: {fileID: 510135132}
   - component: {fileID: 510135131}
   - component: {fileID: 510135133}
-  - component: {fileID: 510135134}
   m_Layer: 0
   m_Name: AA7
   m_TagString: ChessBlock
@@ -7607,21 +7574,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &510135134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 510135129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da9380e842d8f452e9303e88357d106d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BlockTag: 
-  selectedMaterial: {fileID: 0}
-  IsSelected: 0
 --- !u!1 &511982129 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1168082873277499706, guid: cc3ff09613f697c4487a4b667eb1ae66,
@@ -10608,7 +10560,6 @@ GameObject:
   - component: {fileID: 1018694173}
   - component: {fileID: 1018694172}
   - component: {fileID: 1018694174}
-  - component: {fileID: 1018694175}
   m_Layer: 0
   m_Name: AA2
   m_TagString: ChessBlock
@@ -10689,21 +10640,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1018694175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018694170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da9380e842d8f452e9303e88357d106d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BlockTag: 
-  selectedMaterial: {fileID: 0}
-  IsSelected: 0
 --- !u!1 &1040750622
 GameObject:
   m_ObjectHideFlags: 0
@@ -10836,7 +10772,6 @@ GameObject:
   - component: {fileID: 1087667391}
   - component: {fileID: 1087667390}
   - component: {fileID: 1087667392}
-  - component: {fileID: 1087667393}
   m_Layer: 0
   m_Name: AA4
   m_TagString: ChessBlock
@@ -10917,21 +10852,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1087667393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1087667388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da9380e842d8f452e9303e88357d106d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BlockTag: 
-  selectedMaterial: {fileID: 0}
-  IsSelected: 0
 --- !u!1 &1109925105
 GameObject:
   m_ObjectHideFlags: 0
@@ -13655,7 +13575,6 @@ GameObject:
   - component: {fileID: 1403449923}
   - component: {fileID: 1403449922}
   - component: {fileID: 1403449924}
-  - component: {fileID: 1403449925}
   m_Layer: 0
   m_Name: AA5
   m_TagString: ChessBlock
@@ -13736,21 +13655,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1403449925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1403449920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da9380e842d8f452e9303e88357d106d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BlockTag: 
-  selectedMaterial: {fileID: 0}
-  IsSelected: 0
 --- !u!1 &1420981993
 GameObject:
   m_ObjectHideFlags: 0
@@ -14672,7 +14576,6 @@ GameObject:
   - component: {fileID: 1579344908}
   - component: {fileID: 1579344907}
   - component: {fileID: 1579344909}
-  - component: {fileID: 1579344910}
   m_Layer: 0
   m_Name: AA1
   m_TagString: ChessBlock
@@ -14753,21 +14656,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1579344910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1579344905}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da9380e842d8f452e9303e88357d106d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BlockTag: A
-  selectedMaterial: {fileID: 0}
-  IsSelected: 0
 --- !u!1 &1582582338
 GameObject:
   m_ObjectHideFlags: 0
@@ -17489,7 +17377,6 @@ GameObject:
   - component: {fileID: 2038493786}
   - component: {fileID: 2038493785}
   - component: {fileID: 2038493787}
-  - component: {fileID: 2038493788}
   m_Layer: 0
   m_Name: AA3
   m_TagString: ChessBlock
@@ -17570,21 +17457,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &2038493788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2038493783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da9380e842d8f452e9303e88357d106d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BlockTag: 
-  selectedMaterial: {fileID: 0}
-  IsSelected: 0
 --- !u!1 &2048128877
 GameObject:
   m_ObjectHideFlags: 0
