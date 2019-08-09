@@ -31,13 +31,13 @@ public class PriceTagView : MonoBehaviour {
                 Destroy(heroObject);
                 heroObject = null;
                 // 创建一个英雄, 并放入手牌中
-                var actor = HeroActor.CreateView(purchaseConfig);
-                actor.tag = "character";
+                var actor = HeroActor.CreateView(purchaseConfig.Tag);
                 if (actor != null) {
-                    // actor.AddComponent<HeroActorDrag>();
                     // 1. 放到自己手牌中
                     actor.gameObject.AddComponent<CapsuleCollider>();
-                    var pos = battleFieldGame.onHandChessManager.AddChess(actor);
+                    // var pos = battleFieldGame.onHandChessManager.AddChess(actor);
+                    var pos = BattleField.Current.GetEmptyHandPosition();
+                    Debug.Log("放到位置:" + pos);
                     // 1. 放到棋盘地图中
                     BattleField.Current.MoveCharacter(actor, pos);
                 }

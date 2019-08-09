@@ -8,30 +8,41 @@ public class HeroActor : MonoBehaviour {
 
     public string ChessBoardPosition = null;
 
-    public bool Create(CharacterPurchaseConfig config) {
-        //Debug.Log("创建英雄" + heroTag);
-        do {
-            // 创建英雄模型
-            if (!CreateView(config)) {
-                return false;
-            }
-        } while (false);
-        return true;
-    }
-
     /// <summary>
     /// 
     /// </summary>
     /// <param name="config"></param>
     /// <returns></returns>
-    public static HeroActor CreateView(CharacterPurchaseConfig config) {
+    public static HeroActor CreateView(string tag) {
+        var cfg = BattleField.Current.GetAnimationConfig(tag);
         // 创建模型
-        var obj = Instantiate(config.prefab);
+        var obj = Instantiate(cfg.Prefab);
         obj.transform.localScale = Vector3.one * 4f;
         var actor = obj.AddComponent<HeroActor>();
         // id
         actor.Id = System.Guid.NewGuid().ToString();
-        Debug.Log("=================>" + actor.Id);
+        actor.tag = "character";
+        // 动画控制
+        var anim = obj.AddComponent<CharacterBase>();
+        anim.config = cfg;
+        actor.anim = anim;
         return actor;
     }
+
+    float lastAttackTime = 0;
+    public void UpdateGame() {
+        var diff = GameTime.Time - lastAttackTime;
+        if (diff > 2) {
+            Debug.Log("攻击咯");
+
+            // DEBUG
+            anim.AttackTransform = this.transform;// 打自己
+
+            anim.DoNormalAttack();
+            lastAttackTime = GameTime.Time;
+        }
+    }
+
+    private CharacterBase anim;
+    
 }

@@ -33,5 +33,10 @@ public class BattleGameConfig : ScriptableObject {
     [HideInInspector()]
     public Player Me;// 自己的视角
     
+    public void Init() {
+        currentPrepareTime = 0;
+        currentFightingTime = 0;
+        currentRound = 1;
+    }
 }
 

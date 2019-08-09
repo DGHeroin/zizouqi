@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f801be57df24747be9efab3a98aecec4, type: 3}
   m_Name: BattleGameConfig
   m_EditorClassIdentifier: 
-  roundTime: 60
-  prepareTime: 10
+  roundTime: 5
+  prepareTime: 5
   InitPrice: 20
   InitPopulation: 0
   InitHP: 0
@@ -22,6 +22,6 @@ MonoBehaviour:
   AudioRoundFail: {fileID: 8300000, guid: c64eadfb1d8708242bb7ab51690c652c, type: 3}
   AudioRoundStart: {fileID: 8300000, guid: d7d15ffc4227c024e8c1222cf5aedba2, type: 3}
   AudioRoundCountDown: {fileID: 8300000, guid: e93690204e19d7d4da27942a991c8a2a, type: 3}
-  currentPrepareTime: 8
-  currentFightingTime: 53
-  currentRound: 1
+  currentPrepareTime: 0
+  currentFightingTime: 6
+  currentRound: 2

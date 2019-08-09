@@ -10,6 +10,14 @@ public class BattleField {
     private BattleGameConfig gameConfig;
 
     /// <summary>
+    /// 玩家匹配器
+    /// </summary>
+    private PlayerSelector playerSelector;
+
+    private CharacterPurchaseConfig[] characterList;
+    private CharacterAnimationConfig[] animationConfig;
+
+    /// <summary>
     /// 游戏状态
     /// </summary>
     private BattleState state = BattleState.Init;
@@ -23,6 +31,10 @@ public class BattleField {
     private float lastPrepareTime = 0;
     private bool isEnterPrepare = true;
 
+    private List<HeroActor> allHero = new List<HeroActor>();
+    private List<HeroActor> myHero = new List<HeroActor>();
+    private List<HeroActor> otherHero = new List<HeroActor>();
+
     static BattleField _Current = null;
     public static BattleField Current {
         get {
@@ -31,6 +43,14 @@ public class BattleField {
     }
     public BattleField() {
         _Current = this;
+        // 初始化配置
+    }
+
+    public void ClearHeroActor(List<HeroActor> list) {
+        foreach(var actor in list) {
+            Object.Destroy(actor.gameObject);
+        }
+        list.Clear();
     }
 
     /// <summary>
@@ -38,8 +58,13 @@ public class BattleField {
     /// </summary>
     public Player[] Players = new Player[0];
 
-    public void Setup(BattleGameConfig config) {
+    public void Setup(BattleGameConfig config, PlayerSelector selector, 
+        CharacterPurchaseConfig[] CharacterList,
+        CharacterAnimationConfig[] AnimationConfig) {
         this.gameConfig = config;
+        this.playerSelector = selector;
+        this.characterList = CharacterList;
+        this.animationConfig = AnimationConfig;
     }
 
     public void AddEvent(string key, UnityAction action) {
@@ -56,12 +81,29 @@ public class BattleField {
         events[key].RemoveListener(action);
     }
 
+    public GameObject GetCharacterPrefab(string tag) {
+        foreach(var p in this.characterList) {
+            if (p.Tag == tag) {
+                return p.prefab;
+            }
+        }
+        return null;
+    }
+
     public void StartGame() {
         Debug.Log("游戏开始");
+        if (gameConfig.currentRound == 1) {
+            Debug.Log("新来的玩家? 来一杯阿帕茶.");
+        }
     }
 
     public void UpdateGame() {
+        GameTime.Time += Time.deltaTime;
         this.CheckState(); // 检查状态
+
+        foreach(var actor in allHero) {
+            actor.UpdateGame();
+        }
     }
 
     public void BattleStart() {
@@ -73,6 +115,21 @@ public class BattleField {
         fightingStartTime = Time.time;
         emitEvent(BattleEvent.FightingEnter);
         AudioManager.Instance.PlaySFX(gameConfig.AudioRoundStart);
+
+        allHero.Clear();
+        // 1. 根据玩家匹配器获取玩家阵容
+        var config = playerSelector.GetPlayerLevelConfig();
+        // 2. 创建对手的替身
+        ClearHeroActor(this.otherHero);
+        foreach (var p in config.Heroes) {
+            var actor = HeroActor.CreateView(p.CharacterTag);
+            this.MoveCharacter(actor, p.Position);
+            this.otherHero.Add(actor);
+            allHero.Add(actor);
+            // 面向
+            actor.transform.localEulerAngles = new Vector3(0, 180, 0);
+        }
+        // 3. TODO 把我自己战场上的角色加到列表中
     }
 
     public void RoundPrepare(int leftSeconds) {
@@ -213,6 +270,59 @@ public class BattleField {
         }
         return this.CharacterMap[pos];
     }
+    #region 手牌
+    readonly string[] fixedHandPosition = new string[] {
+            "AA1", "AA2", "AA3", "AA4",
+            "AA5", "AA6", "AA7", "AA8",
+        };
+    /// <summary>
+    /// 获取手牌空余位置
+    /// </summary>
+    /// <returns></returns>
+    public string GetEmptyHandPosition() {
+        foreach(var p in fixedHandPosition) {
+            if (!this.CharacterMap.ContainsKey(p)) {
+                return p;
+            }
+        }
+
+        return null;
+    }
+
+    public int GetHandCharacterCount() {
+        int c = 0;
+        foreach (var p in fixedHandPosition) {
+            if (this.CharacterMap.ContainsKey(p)) {
+                c++;
+            }
+        }
+
+        return c;
+    }
+    #endregion
+
+    #region GameConfig
+
+    /// <summary>
+    /// 获取当前回合数
+    /// </summary>
+    /// <returns></returns>
+    public int GetRound() {
+        return gameConfig.currentRound;
+    }
+    public CharacterPurchaseConfig[] GetCharacterList() {
+        return this.characterList;
+    }
+    public CharacterAnimationConfig GetAnimationConfig(string tag) {
+        foreach(var config in this.animationConfig) {
+            if (config.Tag == tag) {
+                return config;
+            }
+        }
+        Debug.LogError("tag not found:" + tag);
+        return null;
+    }
+    #endregion
 }
 
 public enum BattleState {
@@ -234,4 +344,8 @@ public static class BattleEvent {
     public const string FightingLeave = "fighting.leave"; // 离开战斗
     public const string RoundComplete = "round.complete"; // 回合结束
     public const string BattleComplete = "battle.complete"; // 游戏结束, 所有人死亡或者自己死亡
+}
+
+public static class GameTime {
+    public static float Time = 0;
 }

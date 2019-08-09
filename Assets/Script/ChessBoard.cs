@@ -6,6 +6,7 @@ public class ChessBoard : MonoBehaviour {
     [SerializeField]
     private Camera mainCamera = null;
     private GameObject selectObject = null;
+
     private Camera GetCamera() {
         if (mainCamera != null) {
             return mainCamera;
@@ -66,24 +67,24 @@ public class ChessBoard : MonoBehaviour {
         }
 
         // 选中棋块
+        changeColor(Color.green);
+    }
+
+    private void changeColor(Color c) {
         Renderer[] rs = selectObject.GetComponentsInChildren<Renderer>();
         foreach (Renderer r in rs) {
             Material m = r.material;
-            m.color = Color.green;
+            m.color = c;
             r.material = m;
         }
     }
+
     void ClearSelection() {
         if (selectObject == null) {
             return;
         }
         // 1. 清除原有选中的状态
-        Renderer[] rs = selectObject.GetComponentsInChildren<Renderer>();
-        foreach (Renderer r in rs) {
-            Material m = r.material;
-            m.color = Color.white;
-            r.material = m;
-        }
+        changeColor(Color.white);
 
         // 2. 检查松开的位置
         do {
@@ -100,7 +101,6 @@ public class ChessBoard : MonoBehaviour {
                         Debug.Log("松开:" + selectObject.name + " => " + hitObject.name + " " + srcActor.Id);
                         if (dstActor != null) {
                             // 这个位置有人了
-                            Debug.LogWarning("有人");
                             break;
                         }
                         // 可以移动过去                        

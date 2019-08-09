@@ -5,19 +5,23 @@ using UnityEngine;
 public class BattleFiledGame : MonoBehaviour {
     BattleField battleField;
     public BattleGameConfig gameConfig;
-    /// <summary>
-    /// 手牌管理器
-    /// </summary>
-    public OnHandChessManager onHandChessManager;
+    public PlayerSelector selector;
+
+    [Header("英雄列表")]
+    public CharacterPurchaseConfig[] CharacterList;
+    public CharacterAnimationConfig[] AnimationConfig;
 
     private void Awake() {
         // 创建游戏
         battleField = new BattleField();
         // 创建玩家
+        gameConfig.Init();
         gameConfig.Players = CreatePlayers();
         gameConfig.Me = gameConfig.Players[0];
+        // 玩家选择器
+        selector = GetComponent<LocalGamePlayerSelector>();
         // 游戏配置
-        battleField.Setup(gameConfig);
+        battleField.Setup(gameConfig, selector, CharacterList, AnimationConfig);
     }
 
     void Update() {
@@ -49,3 +53,4 @@ public class BattleFiledGame : MonoBehaviour {
         return player;
     }
 }
+

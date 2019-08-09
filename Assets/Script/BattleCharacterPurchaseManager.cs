@@ -15,9 +15,6 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
         }
     }
 
-    [Header("英雄列表")]
-    public CharacterPurchaseConfig[] CharacterList;
-
     [Header("显示的UI Slots")]
     public GameObject[] purchaseViewPlaceHolder;
 
@@ -74,6 +71,7 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
     /// </summary>
     /// <returns></returns>
     private CharacterPurchaseConfig RandomList() {
+        var CharacterList = BattleField.Current.GetCharacterList();
         return CharacterList[UnityEngine.Random.Range(0, CharacterList.Length - 1)];
     }
 
@@ -125,7 +123,7 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
             return false;
         }
 
-        if (battleFieldGame.onHandChessManager.Count() == battleFieldGame.gameConfig.gamePlayMaxOnHandPlayer) {
+        if (BattleField.Current.GetHandCharacterCount() == battleFieldGame.gameConfig.gamePlayMaxOnHandPlayer) {
             // 手牌已满
             Debug.Log("手牌满了");
             return false;
