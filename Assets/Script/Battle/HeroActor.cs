@@ -7,6 +7,10 @@ public class HeroActor : MonoBehaviour {
     public string Id { get; private set; }
 
     public string ChessBoardPosition = null;
+    public AIBase ai = null;
+    public CharacterConfig config;
+    public bool IsMyActor = false;
+    public bool IsInStage = false; // 是否在棋盘中
 
     /// <summary>
     /// 
@@ -22,27 +26,24 @@ public class HeroActor : MonoBehaviour {
         // id
         actor.Id = System.Guid.NewGuid().ToString();
         actor.tag = "character";
+        actor.config = cfg;
         // 动画控制
         var anim = obj.AddComponent<CharacterBase>();
         anim.config = cfg;
         actor.anim = anim;
+        // AI
+        var ai = Instantiate(cfg.AIPrefab);
+        ai.transform.SetParent(obj.transform);
         return actor;
     }
 
-    float lastAttackTime = 0;
+    
     public void UpdateGame() {
-        var diff = GameTime.Time - lastAttackTime;
-        if (diff > 2) {
-            Debug.Log("攻击咯");
-
-            // DEBUG
-            anim.AttackTransform = this.transform;// 打自己
-
-            anim.DoNormalAttack();
-            lastAttackTime = GameTime.Time;
+        if (ai != null) {
+            ai.UpdateGame();
         }
     }
 
-    private CharacterBase anim;
+    public CharacterBase anim;
     
 }

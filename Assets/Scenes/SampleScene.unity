@@ -17400,17 +17400,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameConfig: {fileID: 11400000, guid: a7d763cd9075e44539493990e60b3180, type: 2}
   CharacterList:
-  - {fileID: 11400000, guid: b2a6551c953101944ab536bf05b0c806, type: 2}
-  - {fileID: 11400000, guid: c7faf8a721eb0374386ca9fdcc818564, type: 2}
-  - {fileID: 11400000, guid: 9e55de2afc6ca67499315d41217629bb, type: 2}
-  - {fileID: 11400000, guid: 23279b7b9f2bd5b49a973993dc2f4d28, type: 2}
-  - {fileID: 11400000, guid: 871783a9be7215c4b9a68eb32da9313e, type: 2}
-  AnimationConfig:
-  - {fileID: 11400000, guid: 4f0c07f1ced0fa0439714ef5935ad4f7, type: 2}
   - {fileID: 11400000, guid: 460d09a2103c347488a35d3f5b31cf0f, type: 2}
+  - {fileID: 11400000, guid: 4f0c07f1ced0fa0439714ef5935ad4f7, type: 2}
+  - {fileID: 11400000, guid: 23365177b32822643acd713a21cf6770, type: 2}
   - {fileID: 11400000, guid: 4c74f966a1f3c4b02b076d9ff6ea23b8, type: 2}
   - {fileID: 11400000, guid: 57fedc035c64f4efca75a53e466edd99, type: 2}
-  - {fileID: 11400000, guid: 23365177b32822643acd713a21cf6770, type: 2}
 --- !u!4 &2048128879
 Transform:
   m_ObjectHideFlags: 0

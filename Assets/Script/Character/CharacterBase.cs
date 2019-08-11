@@ -9,7 +9,7 @@ using System;
 /// </summary>
 public class CharacterBase : MonoBehaviour {
 
-    public CharacterAnimationConfig config;
+    public CharacterConfig config;
     private Animator anim;
     [Tooltip("攻击对象")]
     public Transform AttackTransform;

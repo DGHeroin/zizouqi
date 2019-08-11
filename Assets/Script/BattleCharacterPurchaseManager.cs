@@ -57,9 +57,9 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
     /// <summary>
     /// 创建新的购买列表
     /// </summary>
-    public CharacterPurchaseConfig[] CreatePurchaseList() {
+    public CharacterConfig[] CreatePurchaseList() {
         int n = 5;
-        CharacterPurchaseConfig[] result = new CharacterPurchaseConfig[5];
+        CharacterConfig[] result = new CharacterConfig[5];
         for (int i = 0; i < n; i++) {
             var config = RandomList();
             result[i] = config;
@@ -70,7 +70,7 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
     /// 随机生成一个英雄
     /// </summary>
     /// <returns></returns>
-    private CharacterPurchaseConfig RandomList() {
+    private CharacterConfig RandomList() {
         var CharacterList = BattleField.Current.GetCharacterList();
         return CharacterList[UnityEngine.Random.Range(0, CharacterList.Length - 1)];
     }
@@ -88,7 +88,7 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
                 DestroyImmediate(purchaseViewPlaceHolder[i].transform.GetChild(0).gameObject);
             }
             var config = list[i];
-            var obj = Instantiate<GameObject>(config.prefab);
+            var obj = Instantiate<GameObject>(config.Prefab);
             CurrentHeroList[i] = obj;
 
             obj.transform.position = Vector3.zero;
@@ -116,7 +116,7 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
     /// <param name="idx"></param>
     /// <param name="config"></param>
     /// <returns></returns>
-    public bool Purchase(int idx, CharacterPurchaseConfig config) {
+    public bool Purchase(int idx, CharacterConfig config) {
         if (battleFieldGame.gameConfig.Me.Money < config.Price) {
             // 金币不够
             Debug.Log("金币不够");

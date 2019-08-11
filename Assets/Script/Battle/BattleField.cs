@@ -14,8 +14,7 @@ public class BattleField {
     /// </summary>
     private PlayerSelector playerSelector;
 
-    private CharacterPurchaseConfig[] characterList;
-    private CharacterAnimationConfig[] animationConfig;
+    private CharacterConfig[] characterList;
 
     /// <summary>
     /// 游戏状态
@@ -59,12 +58,10 @@ public class BattleField {
     public Player[] Players = new Player[0];
 
     public void Setup(BattleGameConfig config, PlayerSelector selector, 
-        CharacterPurchaseConfig[] CharacterList,
-        CharacterAnimationConfig[] AnimationConfig) {
+        CharacterConfig[] CharacterList) {
         this.gameConfig = config;
         this.playerSelector = selector;
         this.characterList = CharacterList;
-        this.animationConfig = AnimationConfig;
     }
 
     public void AddEvent(string key, UnityAction action) {
@@ -84,7 +81,7 @@ public class BattleField {
     public GameObject GetCharacterPrefab(string tag) {
         foreach(var p in this.characterList) {
             if (p.Tag == tag) {
-                return p.prefab;
+                return p.Prefab;
             }
         }
         return null;
@@ -99,6 +96,7 @@ public class BattleField {
 
     public void UpdateGame() {
         GameTime.Time += Time.deltaTime;
+        GameTime.DeltaTime = Time.deltaTime;
         this.CheckState(); // 检查状态
 
         foreach(var actor in allHero) {
@@ -123,13 +121,18 @@ public class BattleField {
         ClearHeroActor(this.otherHero);
         foreach (var p in config.Heroes) {
             var actor = HeroActor.CreateView(p.CharacterTag);
+            actor.IsInStage = true;
             this.MoveCharacter(actor, p.Position);
             this.otherHero.Add(actor);
             allHero.Add(actor);
             // 面向
             actor.transform.localEulerAngles = new Vector3(0, 180, 0);
         }
-        // 3. TODO 把我自己战场上的角色加到列表中
+        // 3. 把我自己战场上的角色加到列表中
+        var me = this.gameConfig.Me;
+        foreach(var pair in me.Stage) {
+            allHero.Add(pair.Value);
+        }
     }
 
     public void RoundPrepare(int leftSeconds) {
@@ -261,7 +264,27 @@ public class BattleField {
         var chessBlock = ChessBlockManager.Current.GetChessBlock(to);
         actor.transform.position = chessBlock.transform.position;
         Debug.Log("角色移动" + actor + " => " + to);
-        
+        if (actor.IsMyActor) { // 如果是我的英雄, 这里要判断, 是在手牌中, 还是在棋盘上
+            var me = this.gameConfig.Me;
+            var key = actor.Id;
+            if (to.StartsWith("A")) { // 放到手牌
+                if (me.Stage.ContainsKey(key)) { // remove if in stage
+                    me.Stage.Remove(key);
+                }
+                if (!me.Bench.ContainsKey(key)) { // add if not in bench
+                    me.Bench[key] = actor;
+                }
+                Debug.Log("冷板凳");
+            } else if (to.StartsWith("B")) { // 放到战场
+                if (me.Bench.ContainsKey(key)) { // remove if in bench
+                    me.Bench.Remove(key);
+                }
+                if (!me.Stage.ContainsKey(key)) { // add if not in stage
+                    me.Stage[key] = actor;
+                }
+                Debug.Log("出战");
+            }
+        }
     }
 
     public HeroActor GetMap(string pos) {
@@ -310,11 +333,11 @@ public class BattleField {
     public int GetRound() {
         return gameConfig.currentRound;
     }
-    public CharacterPurchaseConfig[] GetCharacterList() {
+    public CharacterConfig[] GetCharacterList() {
         return this.characterList;
     }
-    public CharacterAnimationConfig GetAnimationConfig(string tag) {
-        foreach(var config in this.animationConfig) {
+    public CharacterConfig GetAnimationConfig(string tag) {
+        foreach(var config in this.characterList) {
             if (config.Tag == tag) {
                 return config;
             }
@@ -348,4 +371,5 @@ public static class BattleEvent {
 
 public static class GameTime {
     public static float Time = 0;
+    public static float DeltaTime = 0;
 }

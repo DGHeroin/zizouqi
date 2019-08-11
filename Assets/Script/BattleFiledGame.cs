@@ -8,8 +8,8 @@ public class BattleFiledGame : MonoBehaviour {
     public PlayerSelector selector;
 
     [Header("英雄列表")]
-    public CharacterPurchaseConfig[] CharacterList;
-    public CharacterAnimationConfig[] AnimationConfig;
+    //public CharacterPurchaseConfig[] CharacterList;
+    public CharacterConfig[] CharacterList;
 
     private void Awake() {
         // 创建游戏
@@ -21,7 +21,7 @@ public class BattleFiledGame : MonoBehaviour {
         // 玩家选择器
         selector = GetComponent<LocalGamePlayerSelector>();
         // 游戏配置
-        battleField.Setup(gameConfig, selector, CharacterList, AnimationConfig);
+        battleField.Setup(gameConfig, selector, CharacterList);
     }
 
     void Update() {

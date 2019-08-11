@@ -12,7 +12,7 @@ public class PriceTagView : MonoBehaviour {
     [HideInInspector]
     public GameObject heroObject;
     [HideInInspector]
-    public CharacterPurchaseConfig purchaseConfig;
+    public CharacterConfig purchaseConfig;
     [HideInInspector]
     public int purchaseListIndex;
     [HideInInspector]
@@ -33,6 +33,8 @@ public class PriceTagView : MonoBehaviour {
                 // 创建一个英雄, 并放入手牌中
                 var actor = HeroActor.CreateView(purchaseConfig.Tag);
                 if (actor != null) {
+                    actor.IsMyActor = true;
+                    actor.IsInStage = false;
                     // 1. 放到自己手牌中
                     actor.gameObject.AddComponent<CapsuleCollider>();
                     // var pos = battleFieldGame.onHandChessManager.AddChess(actor);

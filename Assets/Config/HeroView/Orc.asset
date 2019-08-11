@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f4e7551b318f4d768cad343352adf90, type: 3}
-  m_Name: "\u517D\u4EBA"
+  m_Name: Orc
   m_EditorClassIdentifier: 
   Tag: Orc
   Prefab: {fileID: 100080, guid: 7ea9ea68707e3564392f5e5d45303b59, type: 3}
@@ -34,3 +34,7 @@ MonoBehaviour:
   AudioNormalAttackHit: {fileID: 8300000, guid: e4d5913a90c428548aa1c17fa0cf03a6,
     type: 3}
   AudioNormalAttackHitDelay: 0
+  Price: 1
+  AIPrefab: {fileID: 5439671557475761683, guid: e26e1260bd9a264488c6f77d9a74f354,
+    type: 3}
+  NormalAttackPeriod: 3

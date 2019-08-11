@@ -98,7 +98,13 @@ public class ChessBoard : MonoBehaviour {
                         // 如果松开的位置, 也是 chess block
                         var srcActor = BattleField.Current.GetMap(selectObject.name);
                         var dstActor = BattleField.Current.GetMap(hitObject.name);
+                        var dstPos = hitObject.name;
                         Debug.Log("松开:" + selectObject.name + " => " + hitObject.name + " " + srcActor.Id);
+                        var bf = BattleField.Current;
+                        if (bf.GameState() != BattleState.Prepare && dstPos.StartsWith("B")) { // 如果是在战斗中, 则不能再增加到棋盘中了
+                            Debug.LogWarning("不在准备中, 无法操作到棋盘");
+                            break;
+                        }
                         if (dstActor != null) {
                             // 这个位置有人了
                             break;
