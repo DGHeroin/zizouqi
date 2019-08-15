@@ -36,4 +36,8 @@ public class CharacterConfig : ScriptableObject {
     public GameObject AIPrefab; // 购买价格
     public float NormalAttackPeriod;             //  攻击周期
 
+    [Space(), Header("AI")]
+    public int HP;     // 血量
+    public int Damage; // 攻击力
+    public int Level;  // 等级
 }

@@ -34,6 +34,11 @@ public class BattleField {
     private List<HeroActor> myHero = new List<HeroActor>();
     private List<HeroActor> otherHero = new List<HeroActor>();
 
+    /// <summary>
+    /// 游戏帧数
+    /// </summary>
+    private uint gameTick = 0;
+
     static BattleField _Current = null;
     public static BattleField Current {
         get {
@@ -97,6 +102,7 @@ public class BattleField {
     public void UpdateGame() {
         GameTime.Time += Time.deltaTime;
         GameTime.DeltaTime = Time.deltaTime;
+        this.gameTick++;
         this.CheckState(); // 检查状态
 
         foreach(var actor in allHero) {
@@ -122,6 +128,7 @@ public class BattleField {
         foreach (var p in config.Heroes) {
             var actor = HeroActor.CreateView(p.CharacterTag);
             actor.IsInStage = true;
+            actor.TeamId = 1;
             this.MoveCharacter(actor, p.Position);
             this.otherHero.Add(actor);
             allHero.Add(actor);
@@ -346,6 +353,14 @@ public class BattleField {
         return null;
     }
     #endregion
+
+    public uint GetTick() {
+        return gameTick;
+    }
+
+    public List<HeroActor> GetActors() {
+        return allHero;
+    }
 }
 
 public enum BattleState {
@@ -372,4 +387,5 @@ public static class BattleEvent {
 public static class GameTime {
     public static float Time = 0;
     public static float DeltaTime = 0;
+    public static uint Tick = 0;
 }

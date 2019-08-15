@@ -38,4 +38,7 @@ MonoBehaviour:
   Price: 3
   AIPrefab: {fileID: 5439671557475761683, guid: e26e1260bd9a264488c6f77d9a74f354,
     type: 3}
-  NormalAttackPeriod: 3
+  NormalAttackPeriod: 1.5
+  HP: 400
+  Damage: 65
+  Level: 1

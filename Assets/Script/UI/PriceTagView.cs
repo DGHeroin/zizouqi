@@ -35,6 +35,7 @@ public class PriceTagView : MonoBehaviour {
                 if (actor != null) {
                     actor.IsMyActor = true;
                     actor.IsInStage = false;
+                    actor.TeamId = 0;
                     // 1. 放到自己手牌中
                     actor.gameObject.AddComponent<CapsuleCollider>();
                     // var pos = battleFieldGame.onHandChessManager.AddChess(actor);

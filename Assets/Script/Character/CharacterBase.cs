@@ -8,7 +8,6 @@ using System;
 /// 角色动画控制
 /// </summary>
 public class CharacterBase : MonoBehaviour {
-
     public CharacterConfig config;
     private Animator anim;
     [Tooltip("攻击对象")]

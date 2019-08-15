@@ -14,6 +14,7 @@ public class BattleFiledGame : MonoBehaviour {
     private void Awake() {
         // 创建游戏
         battleField = new BattleField();
+        
         // 创建玩家
         gameConfig.Init();
         gameConfig.Players = CreatePlayers();
