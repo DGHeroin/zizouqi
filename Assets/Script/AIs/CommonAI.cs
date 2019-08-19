@@ -10,7 +10,7 @@ public class CommonAI : MonoBehaviour {
         // 
         var bf = BattleField.Current;
         switch (bf.GameState()) {
-            case BattleState.Fighting: // 战斗中
+            case BattleState.RoundFighting: // 战斗中
                 break;
             case BattleState.Prepare:
                 return 1;

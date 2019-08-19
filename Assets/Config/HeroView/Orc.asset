@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Orc
   m_EditorClassIdentifier: 
   Tag: Orc
+  Name: "\u517D\u4EBA"
   Prefab: {fileID: 100080, guid: 7ea9ea68707e3564392f5e5d45303b59, type: 3}
   Idle: Idle
   Walk: Walk
   TakeDamage: Take Damage
+  DieAnim: Die
   NormalAttack: Melee Attack
   Ability_1: Swing Attack
   Ability_2: 
@@ -41,3 +43,5 @@ MonoBehaviour:
   HP: 500
   Damage: 45
   Level: 1
+  ultimateTime: 6
+  ultimatePower: 35

@@ -40,9 +40,9 @@ public class PriceTagView : MonoBehaviour {
                     actor.gameObject.AddComponent<CapsuleCollider>();
                     // var pos = battleFieldGame.onHandChessManager.AddChess(actor);
                     var pos = BattleField.Current.GetEmptyHandPosition();
-                    Debug.Log("放到位置:" + pos);
+                    //Debug.Log("放到位置:" + pos);
                     // 1. 放到棋盘地图中
-                    BattleField.Current.MoveCharacter(actor, pos);
+                    BattleField.Current.MoveActor(actor, pos);
                 }
             } else {
                 // 购买失败

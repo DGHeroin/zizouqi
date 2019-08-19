@@ -20,9 +20,10 @@ public class HeroActor : MonoBehaviour {
     /// <returns></returns>
     public static HeroActor CreateView(string tag) {
         var actorConfig = BattleField.Current.GetAnimationConfig(tag);
+        Debug.LogFormat("创建英雄:{0} {1}", tag, actorConfig);
         // 创建模型
         var obj = Instantiate(actorConfig.Prefab);
-        obj.transform.localScale = Vector3.one * 4f;
+        obj.transform.localScale = Vector3.one * 5f;
         var actor = obj.AddComponent<HeroActor>();
         // id
         actor.Id = System.Guid.NewGuid().ToString();
@@ -44,6 +45,8 @@ public class HeroActor : MonoBehaviour {
 
     
     public void UpdateGame() {
+        if (!IsAlive) { return; }
+
         updateView(); // 更新视野
         if (ai != null) {
             ai.UpdateGame();
@@ -78,6 +81,31 @@ public class HeroActor : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// 受到攻击
+    /// </summary>
+    /// <param name="damage"></param>
+    public void TakeDamage(string whoAttackMe, int damage) {
+        state.deltaHP -= damage;
+        anim.PerformTakeDamage();
+        if (state.GetHP() == 0) {
+            Debug.LogFormat("我{0}被{1}, 打死了", this.Id, whoAttackMe);
+            anim.PerformDie(()=> {
+                if(this.IsMyActor) {
+                    this.gameObject.transform.position = Vector3.one * 10000; // 如果是我的英雄, 则放到一个超远距离, 以备下一局使用
+                } else {
+                    Destroy(this.gameObject); // 释放gameobject
+                }
+                
+                BattleField.Current.RemoveActor(this.ChessBoardPosition); // 在地图上删除
+            });
+
+        }
+        Debug.LogFormat("打中扣血{0} {1} => {2} {3}/{4}", this.Id, whoAttackMe, damage, state.GetHP(), state.HP);
+    }
+
+    public bool IsAlive { get { return state.GetHP() > 0; } }
 
     public CharacterBase anim;
     public List<ActorView> teamMate = new List<ActorView>();

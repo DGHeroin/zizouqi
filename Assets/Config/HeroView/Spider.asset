@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Spider
   m_EditorClassIdentifier: 
   Tag: Spider
-  Prefab: {fileID: 100052, guid: 8ba84bdb1221cf14d8968d8a6adb8a67, type: 3}
+  Name: "\u8718\u86DB"
+  Prefab: {fileID: 100144, guid: c60e4208f504c9b428686973db80059f, type: 3}
   Idle: Idle
   Walk: Walk
   TakeDamage: Take Damage
+  DieAnim: Die
   NormalAttack: Claw Attack
   Ability_1: Web Attack
   Ability_2: 
@@ -42,3 +44,5 @@ MonoBehaviour:
   HP: 400
   Damage: 65
   Level: 1
+  ultimateTime: 8
+  ultimatePower: 35

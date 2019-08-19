@@ -10,7 +10,7 @@ public class BattleGameConfig : ScriptableObject {
     [Tooltip("初始金币")]
     public int InitPrice = 1;// 初始金币
     [Tooltip("初始人口数")]
-    public int InitPopulation;
+    public int InitPopulation = 1;
     [Tooltip("初始血量")]
     public int InitHP;
     [Tooltip("最大手牌数量")]
@@ -32,7 +32,7 @@ public class BattleGameConfig : ScriptableObject {
     public Player[] Players; // 玩家
     [HideInInspector()]
     public Player Me;// 自己的视角
-    
+
     public void Init() {
         currentPrepareTime = 0;
         currentFightingTime = 0;

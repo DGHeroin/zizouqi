@@ -13,18 +13,20 @@ MonoBehaviour:
   m_Name: Cobra
   m_EditorClassIdentifier: 
   Tag: Cobra
+  Name: "\u5927\u86C7"
   Prefab: {fileID: 100004, guid: 55496e728d7be644e82bfd86db6be50d, type: 3}
   Idle: Idle
   Walk: Walk
   TakeDamage: Take Damage
+  DieAnim: Die
   NormalAttack: Spit Poison Attack
   Ability_1: Tail Attack
   Ability_2: 
   Ability_3: 
   NormalAttackPrefab: {fileID: 100002, guid: 32f4cd885b47e9d4a93e21d1cc8dd0f5, type: 3}
   NormalAttackIsProject: 1
-  NormalAttackYOffset: 1.5
-  NormatlAttackSpped: 0.3
+  NormalAttackYOffset: 5
+  NormatlAttackSpped: 35
   NormatlAttackDelay: 0.2
   NormatlAttackHitEffect: {fileID: 100000, guid: 49bd1c57a0f78a84d88f0c7becea596c,
     type: 3}
@@ -42,3 +44,5 @@ MonoBehaviour:
   HP: 465
   Damage: 40
   Level: 1
+  ultimateTime: 5
+  ultimatePower: 30

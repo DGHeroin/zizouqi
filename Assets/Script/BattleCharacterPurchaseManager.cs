@@ -98,7 +98,7 @@ public class BattleCharacterPurchaseManager : MonoBehaviour {
 
             var priceTagView = priceTags[i].GetComponent<PriceTagView>();
             priceTags[i].SetActive(true);
-            priceTagView.NameText.text = config.Tag;
+            priceTagView.NameText.text = config.Name;
             priceTagView.PriceText.text = "" + config.Price;
             priceTagView.heroObject = obj;
             priceTagView.purchaseConfig = config;

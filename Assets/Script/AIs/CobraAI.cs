@@ -24,7 +24,7 @@ public class CobraAI : MonoBehaviour, AIBase {
 
         var bf = BattleField.Current;
         switch (bf.GameState()) {
-            case BattleState.Fighting:
+            case BattleState.RoundFighting:
                 DoFighing();
                 break;
             case BattleState.Prepare:
@@ -37,8 +37,28 @@ public class CobraAI : MonoBehaviour, AIBase {
         if (attackTimeDt >= actor.config.NormalAttackPeriod) {
             attackTimeDt = 0;
             // DEBUG
-            actor.anim.AttackTransform = this.transform;// 打自己
-            actor.anim.DoNormalAttack();
+            var teamId = actor.TeamId == 0 ? 1 : 0;
+            var others = BattleField.Current.GetActors(teamId);
+            // 查找最接近自己的敌人
+            var myPos = GameUtility.MapToPosition(actor.ChessBoardPosition);
+            HeroActor nearActor = null;
+            int minDistance = int.MaxValue;
+            foreach (var o in others) {
+                var pos = GameUtility.MapToPosition(o.ChessBoardPosition);
+                var dis = pos.Distance(myPos);
+                if (dis < minDistance) {
+                    minDistance = dis;
+                    nearActor = o;
+                }
+            }
+
+            if (nearActor != null) {
+                actor.anim.AttackTransform = nearActor.gameObject.transform;
+                actor.anim.DoNormalAttack(
+                    actor.Id,               // 谁打的
+                    actor.state.GetDamage() // 攻击量
+                    );
+            }
             lastAttackTime = GameTime.Time;
         }
     }

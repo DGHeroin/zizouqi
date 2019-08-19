@@ -8,7 +8,6 @@ public class BattleFiledGame : MonoBehaviour {
     public PlayerSelector selector;
 
     [Header("英雄列表")]
-    //public CharacterPurchaseConfig[] CharacterList;
     public CharacterConfig[] CharacterList;
 
     private void Awake() {

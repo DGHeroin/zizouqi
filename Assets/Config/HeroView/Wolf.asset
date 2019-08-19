@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Wolf
   m_EditorClassIdentifier: 
   Tag: Wolf
+  Name: "\u91CE\u72FC"
   Prefab: {fileID: 100026, guid: e084af645a9c57d41a9c112203d6e8b4, type: 3}
   Idle: Idle
   Walk: Run
   TakeDamage: Take Damage
+  DieAnim: Die
   NormalAttack: Bite Attack
   Ability_1: Claw Attack
   Ability_2: BreathAttackOnce
@@ -41,3 +43,5 @@ MonoBehaviour:
   HP: 530
   Damage: 45
   Level: 1
+  ultimateTime: 5
+  ultimatePower: 30

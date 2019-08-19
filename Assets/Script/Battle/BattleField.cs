@@ -7,7 +7,7 @@ public class BattleField {
     /// <summary>
     /// 游戏配置
     /// </summary>
-    private BattleGameConfig gameConfig;
+    public BattleGameConfig gameConfig { get; private set; }
 
     /// <summary>
     /// 玩家匹配器
@@ -33,26 +33,24 @@ public class BattleField {
     private List<HeroActor> allHero = new List<HeroActor>();
     private List<HeroActor> myHero = new List<HeroActor>();
     private List<HeroActor> otherHero = new List<HeroActor>();
+    public bool IsGameEnd { get; private set; } = false;
 
     /// <summary>
     /// 游戏帧数
     /// </summary>
     private uint gameTick = 0;
-
-    static BattleField _Current = null;
-    public static BattleField Current {
-        get {
-            return _Current;
-        }
-    }
+    public RoundEndType roundEndType = RoundEndType.Draw;
+    public static BattleField Current { get; private set; }
     public BattleField() {
-        _Current = this;
+        Current = this;
         // 初始化配置
     }
 
     public void ClearHeroActor(List<HeroActor> list) {
         foreach(var actor in list) {
-            Object.Destroy(actor.gameObject);
+            if (actor.IsAlive) {
+                Object.Destroy(actor.gameObject);
+            }
         }
         list.Clear();
     }
@@ -115,8 +113,8 @@ public class BattleField {
         gameConfig.currentFightingTime = gameConfig.roundTime;
         emitEvent(BattleEvent.PrepareLeave);
         isEnterPrepare = true;
-        this.changeState(BattleState.Fighting);
-        fightingStartTime = Time.time;
+        this.changeState(BattleState.RoundFighting);
+        RoundStartTime = Time.time; // 回合开始时间
         emitEvent(BattleEvent.FightingEnter);
         AudioManager.Instance.PlaySFX(gameConfig.AudioRoundStart);
 
@@ -129,16 +127,24 @@ public class BattleField {
             var actor = HeroActor.CreateView(p.CharacterTag);
             actor.IsInStage = true;
             actor.TeamId = 1;
-            this.MoveCharacter(actor, p.Position);
+            this.MoveActor(actor, p.Position);
             this.otherHero.Add(actor);
             allHero.Add(actor);
             // 面向
             actor.transform.localEulerAngles = new Vector3(0, 180, 0);
+            // 回血
+            actor.state.deltaHP = 0;
         }
         // 3. 把我自己战场上的角色加到列表中
+        myHero.Clear();
         var me = this.gameConfig.Me;
         foreach(var pair in me.Stage) {
-            allHero.Add(pair.Value);
+            var actor = pair.Value;
+            allHero.Add(actor);
+            // 回血
+            actor.state.deltaHP = 0;
+            myHero.Add(actor);
+            MoveActor(actor, actor.ChessBoardPosition);
         }
     }
 
@@ -164,12 +170,14 @@ public class BattleField {
             case BattleState.Prepare:
                 this.onStatePrepare();
                 break;
-            case BattleState.Finished: // 游戏结束
+            case BattleState.GameFinished: // 游戏结束
                 this.onStateFinished();
                 break;
-            case BattleState.Fighting:
+            case BattleState.RoundFighting:
                 this.onStateFighting();
                 break;
+            case BattleState.RoundEnding:
+                break; // do nothing, just wait
             default:
                 return;
         }
@@ -217,7 +225,7 @@ public class BattleField {
         }
         events[key].Invoke();
     }
-    private float fightingStartTime = 0;
+    private float RoundStartTime = 0;
     private float fightingTime = 0;
     /// <summary>
     /// 战斗
@@ -232,6 +240,28 @@ public class BattleField {
                 onRoundCompleted();
             }
         }
+
+        // 检查双方是否还有人生存
+        var team1 = GetActors(0);
+        var team2 = GetActors(1);
+        if (team1.Count == 0 && team2.Count == 0) {
+            Debug.Log("平局");
+            roundEndType = RoundEndType.Draw;
+            onRoundCompleted();
+            return;
+        }
+        if (team1.Count > 0 && team2.Count == 0) {
+            Debug.Log("team 1 win");
+            roundEndType = RoundEndType.Win;
+            onRoundCompleted();
+            return;
+        }
+        if (team2.Count > 0 && team1.Count == 0) {
+            Debug.Log("team 2 win");
+            roundEndType = RoundEndType.Lose;
+            onRoundCompleted();
+            return;
+        }
     }
 
     #endregion
@@ -239,28 +269,37 @@ public class BattleField {
     /// 回合结束
     /// </summary>
     private void onRoundCompleted() {
-        bool IsWin = true;
-        if (IsWin) {
-            AudioManager.Instance.PlaySFX(gameConfig.AudioRoundWin);
-        } else {
-            AudioManager.Instance.PlaySFX(gameConfig.AudioRoundFail);
-        }
-
-        // TODO 检查游戏是否结束
+        changeState(BattleState.RoundEnding);
+        emitEvent(BattleEvent.FightingLeave);
+        // all game end 检查游戏是否结束
         if (battleFinished) {
             emitEvent(BattleEvent.BattleComplete);
         } else {
-            Debug.Log("重新进入准备");
             emitEvent(BattleEvent.RoundComplete);
-            // 重新进入准备
-            this.gameConfig.currentRound++;
-            this.changeState(BattleState.Prepare);
-            this.gameConfig.currentPrepareTime = this.gameConfig.prepareTime;
-            emitEvent(BattleEvent.PrepareEnter);
+        }
+    }
+    
+    public void RestartRoundGame() {
+        Debug.Log("重新进入准备");
+        // 重新进入准备
+        this.gameConfig.currentRound++;
+        this.changeState(BattleState.Prepare);
+        this.gameConfig.currentPrepareTime = this.gameConfig.prepareTime;
+        emitEvent(BattleEvent.PrepareEnter);
+
+        // 让我的英雄归位
+        var me = this.gameConfig.Me;
+        foreach (var pair in me.Stage) {
+            var actor = pair.Value;
+            allHero.Add(actor);
+            // 回血
+            actor.state.deltaHP = 0;
+            myHero.Add(actor);
+            MoveActor(actor, actor.ChessBoardPosition);
         }
     }
 
-    public void MoveCharacter(HeroActor actor, string to) {
+    public void MoveActor(HeroActor actor, string to) {
         string from = actor.ChessBoardPosition;
         if (from != null) {
             this.CharacterMap.Remove(from);
@@ -269,7 +308,7 @@ public class BattleField {
         actor.ChessBoardPosition = to;
         actor.transform.SetParent(null);
         var chessBlock = ChessBlockManager.Current.GetChessBlock(to);
-        actor.transform.position = chessBlock.transform.position;
+        
         Debug.Log("角色移动" + actor + " => " + to);
         if (actor.IsMyActor) { // 如果是我的英雄, 这里要判断, 是在手牌中, 还是在棋盘上
             var me = this.gameConfig.Me;
@@ -281,7 +320,6 @@ public class BattleField {
                 if (!me.Bench.ContainsKey(key)) { // add if not in bench
                     me.Bench[key] = actor;
                 }
-                Debug.Log("冷板凳");
             } else if (to.StartsWith("B")) { // 放到战场
                 if (me.Bench.ContainsKey(key)) { // remove if in bench
                     me.Bench.Remove(key);
@@ -289,9 +327,10 @@ public class BattleField {
                 if (!me.Stage.ContainsKey(key)) { // add if not in stage
                     me.Stage[key] = actor;
                 }
-                Debug.Log("出战");
             }
         }
+
+        actor.transform.position = chessBlock.transform.position;
     }
 
     public HeroActor GetMap(string pos) {
@@ -299,6 +338,12 @@ public class BattleField {
             return null;
         }
         return this.CharacterMap[pos];
+    }
+    public void RemoveActor(string pos) {
+        if (!this.CharacterMap.ContainsKey(pos)) {
+            return;
+        }
+        this.CharacterMap.Remove(pos);
     }
     #region 手牌
     readonly string[] fixedHandPosition = new string[] {
@@ -361,13 +406,50 @@ public class BattleField {
     public List<HeroActor> GetActors() {
         return allHero;
     }
+
+    public List<HeroActor> GetActors(int teamType, bool alive=true) {
+        var result = new List<HeroActor>();
+        foreach (var actor in allHero) {
+            if (actor.TeamId == teamType) {
+                if (alive) {
+                    if (actor.state.GetHP() > 0) {
+                        result.Add(actor);
+                    }
+                } else {
+                    result.Add(actor);
+                }
+            }
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// 主动出战
+    /// </summary>
+    public void StartFightNow() {
+        if(this.state != BattleState.Prepare) { return; }
+        // 进入战斗
+        BattleStart();
+    }
+    /// <summary>
+    /// 增加人口
+    /// </summary>
+    public void AddPopulation() {
+        if (gameConfig.Me.Money >= 5) {
+            gameConfig.Me.Money -= 5;
+            gameConfig.Me.Population++;
+        } else {
+            BattleUIView.Current.ShowNotifyText("金币不足");
+        }
+    }
 }
 
 public enum BattleState {
     Init,
     Prepare,
-    Fighting,
-    Finished,
+    RoundFighting,
+    RoundEnding,  // 回合结束, 但还没进入到下一局准备
+    GameFinished,
 }
 
 public enum PlayerState {
@@ -378,8 +460,8 @@ public enum PlayerState {
 public static class BattleEvent {
     public const string PrepareEnter = "prepare.enter";   // 进入准备
     public const string PrepareLeave = "prepare.leave";   // 离开准备
-    public const string FightingEnter = "fighting.enter"; // 进入战斗
-    public const string FightingLeave = "fighting.leave"; // 离开战斗
+    public const string FightingEnter = "round.enter"; // 进入战斗
+    public const string FightingLeave = "round.leave"; // 离开战斗
     public const string RoundComplete = "round.complete"; // 回合结束
     public const string BattleComplete = "battle.complete"; // 游戏结束, 所有人死亡或者自己死亡
 }
@@ -388,4 +470,10 @@ public static class GameTime {
     public static float Time = 0;
     public static float DeltaTime = 0;
     public static uint Tick = 0;
+}
+
+public enum RoundEndType {
+    Draw,
+    Win,
+    Lose,
 }

@@ -4,11 +4,13 @@
 #endif
 public class CharacterConfig : ScriptableObject {
     public string Tag;          // tag
+    public string Name;         // 名字
     public GameObject Prefab;   // 创建的prefab
     [Space(), Header("动画名称")]
     public string Idle;         // 待机
     public string Walk;         // 行走
     public string TakeDamage;   // 受到攻击
+    public string DieAnim;      // 死亡动画
     public string NormalAttack; // 普通攻击
     public string Ability_1;    // 1号技能
     public string Ability_2;    // 2号技能
@@ -40,4 +42,7 @@ public class CharacterConfig : ScriptableObject {
     public int HP;     // 血量
     public int Damage; // 攻击力
     public int Level;  // 等级
+    [Space(), Header("大招")]
+    public float ultimateTime; // 大招时间
+    public int ultimatePower;
 }

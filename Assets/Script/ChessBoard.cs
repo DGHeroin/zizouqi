@@ -98,19 +98,61 @@ public class ChessBoard : MonoBehaviour {
                         // 如果松开的位置, 也是 chess block
                         var srcActor = BattleField.Current.GetMap(selectObject.name);
                         var dstActor = BattleField.Current.GetMap(hitObject.name);
+                        if(srcActor == null) {
+                            break;
+                        }
+
+                        var srcPos = srcActor.ChessBoardPosition;
                         var dstPos = hitObject.name;
                         Debug.Log("松开:" + selectObject.name + " => " + hitObject.name + " " + srcActor.Id);
                         var bf = BattleField.Current;
-                        if (bf.GameState() != BattleState.Prepare && dstPos.StartsWith("B")) { // 如果是在战斗中, 则不能再增加到棋盘中了
+                        // 如果是在战斗中, 则不能再增加到棋盘中了
+                        if (bf.GameState() != BattleState.Prepare && dstPos.StartsWith("B")) { 
                             Debug.LogWarning("不在准备中, 无法操作到棋盘");
                             break;
                         }
+                        // 如果是在战斗中, 则只能在手牌之间移动
+                        if (bf.GameState() == BattleState.RoundFighting) {
+                            if (srcPos.StartsWith("B")) { // 战斗中不允许移动棋盘中的角色
+                                Debug.LogWarning("战斗中不允许移动棋盘中的角色");
+                                break;
+                            }
+                        }
+
+                        // 是否有人
                         if (dstActor != null) {
                             // 这个位置有人了
+                            Debug.LogWarning("这个位置有人了");
                             break;
                         }
-                        // 可以移动过去                        
-                        BattleField.Current.MoveCharacter(srcActor, hitObject.name);
+                        
+                        // 移动到棋盘时候需要检查人口数
+                        if (dstPos.StartsWith("B")) {
+                            // 是否越界
+                            var p = GameUtility.MapToPosition(dstPos);
+                            if (p == null) {
+                                Debug.LogWarning("映射位置为空" + dstPos);
+                                break;
+                            }
+                            if (p.Y > 4) {
+                                BattleUIView.Current.ShowNotifyText("摆放越界");
+                                Debug.LogWarning("摆放越界");
+                                break;
+                            }
+                            // 从手牌移动到棋盘, 需要检查人口
+                            if (srcPos.StartsWith("A")) { 
+                                var me = BattleField.Current.gameConfig.Me;
+                                if (me.Stage.Keys.Count >= me.Population) {
+                                    BattleUIView.Current.ShowNotifyText("人口不足");
+                                    Debug.LogWarning("人口不足");
+                                    break;
+                                }
+                            }
+                        }
+
+                        // 可以移动过去
+
+                        BattleField.Current.MoveActor(srcActor, hitObject.name);
                         break;
                     }
                 }

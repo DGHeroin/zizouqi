@@ -13,18 +13,20 @@ MonoBehaviour:
   m_Name: TreeMan
   m_EditorClassIdentifier: 
   Tag: TreeMan
+  Name: "\u6811\u4EBA"
   Prefab: {fileID: 100052, guid: 8ba84bdb1221cf14d8968d8a6adb8a67, type: 3}
   Idle: Idle
   Walk: Walk
   TakeDamage: Take Damage
+  DieAnim: Die
   NormalAttack: Head Attack
   Ability_1: Projectile Attack
   Ability_2: 
   Ability_3: 
   NormalAttackPrefab: {fileID: 100002, guid: b078622531c3a3e42ac09eed9d3dce77, type: 3}
   NormalAttackIsProject: 1
-  NormalAttackYOffset: 0
-  NormatlAttackSpped: 0.2
+  NormalAttackYOffset: 0.5
+  NormatlAttackSpped: 35
   NormatlAttackDelay: 0.5
   NormatlAttackHitEffect: {fileID: 100000, guid: 2c2da673165ed3447850e87b455196c3,
     type: 3}
@@ -42,3 +44,5 @@ MonoBehaviour:
   HP: 580
   Damage: 50
   Level: 1
+  ultimateTime: 4
+  ultimatePower: 30

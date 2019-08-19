@@ -12,19 +12,26 @@ public class CharacterBase : MonoBehaviour {
     private Animator anim;
     [Tooltip("攻击对象")]
     public Transform AttackTransform;
+    private HeroActor actor;
     private void Awake() {
         anim = GetComponent<Animator>();
+        actor = GetComponent<HeroActor>();
     }
 
-    public void DoNormalAttack() {
+    public void DoNormalAttack(string myId, int attackDamage) {
         PerformNormalAttack(AttackTransform, (hit) => {
-            Debug.Log("打中扣血");
-            var cb = hit.GetComponent<CharacterBase>();
-            if (cb == null) { return; }
-            cb.PerformTakeDamage();
+            var actor = hit.GetComponent<HeroActor>();
+            if (actor != null) {
+                actor.TakeDamage(myId, attackDamage);
+            }
         });
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="onHit"></param>
     public void PerformNormalAttack(Transform target, Action<GameObject> onHit) {
         if (anim == null) {
             Debug.LogWarning("动画Animator空");
@@ -36,34 +43,40 @@ public class CharacterBase : MonoBehaviour {
         }
 
         if (config.NormalAttackIsProject) { // 抛掷体
-            var obj = Instantiate(config.NormalAttackPrefab, this.transform);
-            if (obj == null) {
+            var bullet = Instantiate(config.NormalAttackPrefab, this.transform);
+            if (bullet == null) {
                 Debug.LogWarning("普通攻击 抛掷体 空");
                 return;
             }
-            obj.SetActive(false);
+            bullet.transform.SetParent(null, true);
+            bullet.SetActive(false);
             if (config.NormalAttackYOffset > 0) {
-                var pos = obj.transform.position;
-                pos.y = config.NormalAttackYOffset;
-                obj.transform.position = pos;
+                var pos = bullet.transform.position;
+                pos.y += config.NormalAttackYOffset;
+                bullet.transform.position = pos; // 子弹位置
             }
+            var targetPosition = AttackTransform.position; // 打去哪个位置
+            targetPosition.y += config.NormalAttackYOffset;
+
+            //Debug.LogFormat("抛掷物:{0} 父节点:{1} 目标点:{2}", obj.transform.position, this.gameObject.transform.position, targetPosition);
+
             var seq = DOTween.Sequence();
             // 旋转攻击面向
-            var r0 = this.transform.DOLookAt(AttackTransform.position, 0.2f);
+            var r0 = this.transform.DOLookAt(targetPosition, 0.2f);
             seq.Append(r0);
 
             // 暂停一下, 再创建攻击效果
             seq.AppendInterval(config.NormatlAttackDelay);
             // 启用抛掷物
             seq.AppendCallback(() => {
-                obj.SetActive(true);
+                bullet.SetActive(true);
             });
 
             // 播放攻击动画
             float distance = Vector3.Distance(AttackTransform.position, this.transform.position);
-            float duration = distance * config.NormatlAttackSpped;
-            var att = obj.transform.DOMove(AttackTransform.position, duration).OnComplete(() => {
-                Destroy(obj);
+            float duration = distance / config.NormatlAttackSpped;
+            var att = bullet.transform.DOMove(AttackTransform.position, duration).OnComplete(() => {
+                Destroy(bullet);
                 onHit.Invoke(target.gameObject);
                 if (config.AudioNormalAttackHit != null) {
                     AudioManager.Instance.PlaySFX(config.AudioNormalAttackHit, config.AudioNormalAttackHitDelay);
@@ -110,4 +123,17 @@ public class CharacterBase : MonoBehaviour {
             AudioManager.Instance.PlaySFX(config.AudioTakeDamage);
         }
     }
+
+    public void PerformDie(Action callback) {
+        if (anim == null) { return; }
+        anim.SetBool(config.DieAnim, true);
+
+        StartCoroutine(EOnDie(callback, 2.5f));
+    }
+
+    public IEnumerator EOnDie(Action action, float delay) {
+        yield return new WaitForSeconds(delay);
+        action.Invoke(); // 回调
+    }
+
 }
