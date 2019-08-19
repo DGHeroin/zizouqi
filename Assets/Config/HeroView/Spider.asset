@@ -31,6 +31,8 @@ MonoBehaviour:
   NormatlAttackHitEffect: {fileID: 100000, guid: ad11c15b983e72b47a87860ec9eda013,
     type: 3}
   NormatlAttackHitEffectDuration: 2
+  UltimateAttackHitEffect: {fileID: 100046, guid: 140170094c5df1c48a7355c22f2a3618,
+    type: 3}
   AudioTakeDamage: {fileID: 8300000, guid: 4c0ca859a8f01f4488eb687c37ed74a0, type: 3}
   AudioNormalAttack: {fileID: 8300000, guid: 610356ec4a2f4eb419ea22197730d5dc, type: 3}
   AudioNormalAttackDelay: 0.5

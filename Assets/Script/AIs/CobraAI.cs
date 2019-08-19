@@ -6,7 +6,10 @@ using UnityEngine;
 public class CobraAI : MonoBehaviour, AIBase {
     HeroActor actor;
     float attackTimeDt = 0;
+    float ultimateTimeDt = 0;
     private CommonAI cai;
+
+    bool isAttackPlaying = false;
     private void Start() {
         actor = GetComponentInParent<HeroActor>();
         actor.ai = this;
@@ -31,36 +34,69 @@ public class CobraAI : MonoBehaviour, AIBase {
                 break;
         }
     }
-    float lastAttackTime = 0;
     void DoFighing() {
         attackTimeDt += GameTime.DeltaTime;
-        if (attackTimeDt >= actor.config.NormalAttackPeriod) {
-            attackTimeDt = 0;
-            // DEBUG
-            var teamId = actor.TeamId == 0 ? 1 : 0;
-            var others = BattleField.Current.GetActors(teamId);
-            // 查找最接近自己的敌人
-            var myPos = GameUtility.MapToPosition(actor.ChessBoardPosition);
-            HeroActor nearActor = null;
-            int minDistance = int.MaxValue;
-            foreach (var o in others) {
-                var pos = GameUtility.MapToPosition(o.ChessBoardPosition);
-                var dis = pos.Distance(myPos);
-                if (dis < minDistance) {
-                    minDistance = dis;
-                    nearActor = o;
-                }
-            }
+        ultimateTimeDt += GameTime.DeltaTime;
 
+        // if (isAttackPlaying) { return; }
+
+        // Debug.LogFormat("大招时间: {0} => {1}", attackTimeDt, actor.config.ultimateTime);
+        // 大招
+        if (ultimateTimeDt >= actor.config.ultimateTime) {
+            HeroActor nearActor = FindNearActor();
             if (nearActor != null) {
                 actor.anim.AttackTransform = nearActor.gameObject.transform;
-                actor.anim.DoNormalAttack(
+                isAttackPlaying = true; // 开始动画
+                actor.anim.DoUltimateAttack(
                     actor.Id,               // 谁打的
-                    actor.state.GetDamage() // 攻击量
+                    actor.state.GetDamage(), // 攻击量
+                    ()=>{
+                        // 攻击结束
+                        isAttackPlaying = false;
+                    }
                     );
             }
-            lastAttackTime = GameTime.Time;
+
+            ultimateTimeDt = 0;
+            attackTimeDt = 0; // 释放大招后, 普通攻击的时间也要重新计算
+            return;
         }
+
+        // 普通攻击
+        if (attackTimeDt >= actor.config.NormalAttackPeriod) {
+            attackTimeDt = 0;
+            HeroActor nearActor = FindNearActor();
+            if (nearActor != null) {
+                actor.anim.AttackTransform = nearActor.gameObject.transform;
+                isAttackPlaying = true; // 开始动画
+                actor.anim.DoNormalAttack(
+                    actor.Id,               // 谁打的
+                    actor.state.GetDamage(), // 攻击量
+                    () => {
+                        // 攻击结束
+                        isAttackPlaying = false;
+                    }
+                    );
+            }
+        }
+    }
+
+    private HeroActor FindNearActor() {
+        var teamId = actor.TeamId == 0 ? 1 : 0;
+        var others = BattleField.Current.GetActors(teamId);
+        // 查找最接近自己的敌人
+        var myPos = GameUtility.MapToPosition(actor.ChessBoardPosition);
+        HeroActor nearActor = null;
+        int minDistance = int.MaxValue;
+        foreach (var o in others) {
+            var pos = GameUtility.MapToPosition(o.ChessBoardPosition);
+            var dis = pos.Distance(myPos);
+            if (dis < minDistance) {
+                minDistance = dis;
+                nearActor = o;
+            }
+        }
+        return nearActor;
     }
 
 }

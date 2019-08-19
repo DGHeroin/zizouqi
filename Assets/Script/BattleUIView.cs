@@ -202,13 +202,19 @@ public class BattleUIView : MonoBehaviour {
         switch (BattleField.Current.roundEndType) {
             case RoundEndType.Draw:
                 ShowStageText("平局");
+                ShowNotifyText("获得1金币");
+                gameConfig.Me.Money += 1;
                 break;
             case RoundEndType.Win:
                 ShowStageText("胜利");
+                ShowNotifyText("获得5金币");
+                gameConfig.Me.Money += 5;
                 AudioManager.Instance.PlaySFX(gameConfig.AudioRoundWin);
                 break;
             case RoundEndType.Lose:
                 ShowStageText("失败");
+                ShowNotifyText("获得1金币");
+                gameConfig.Me.Money += 1;
                 AudioManager.Instance.PlaySFX(gameConfig.AudioRoundFail);
                 break;
         }

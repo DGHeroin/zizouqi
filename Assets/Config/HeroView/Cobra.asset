@@ -31,12 +31,17 @@ MonoBehaviour:
   NormatlAttackHitEffect: {fileID: 100000, guid: 49bd1c57a0f78a84d88f0c7becea596c,
     type: 3}
   NormatlAttackHitEffectDuration: 2
+  UltimateAttackHitEffect: {fileID: 3958131152679062327, guid: 1b9b3ec01d3d8f541a4053a5862a07d9,
+    type: 3}
+  UltimateAttackHitEffectDuration: 3
   AudioTakeDamage: {fileID: 8300000, guid: efa21edbdca3db644bfb5ed25265f8b2, type: 3}
   AudioNormalAttack: {fileID: 8300000, guid: 30a87249c5d29f446b6b9c89d364fd74, type: 3}
   AudioNormalAttackDelay: 0.5
   AudioNormalAttackHit: {fileID: 8300000, guid: b58a07945dd217a45b32815df4c34cb3,
     type: 3}
   AudioNormalAttackHitDelay: 0
+  AudioUltimateAttackDelay: 0
+  AudioUltimateAttack: {fileID: 8300000, guid: 8a91eab509b1aea45a2d90ec35eee2c7, type: 3}
   Price: 1
   AIPrefab: {fileID: 5439671557475761683, guid: e26e1260bd9a264488c6f77d9a74f354,
     type: 3}
@@ -44,5 +49,5 @@ MonoBehaviour:
   HP: 465
   Damage: 40
   Level: 1
-  ultimateTime: 5
+  ultimateTime: 8
   ultimatePower: 30
